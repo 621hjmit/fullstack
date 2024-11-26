@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.category.mapper.DetailCategoryMapper">
+
+	<select id="selectAllDetailCategories"
+		resultType="com.shop.fullstack.category.vo.CategoryVO">
+		SELECT DETAIL_CATEGORY_ID, SUB_CATEGORY_ID,
+		DETAIL_CATEGORY_NAME FROM
+		DetailCategory
+	</select>
+
+	<select id="selectDetailCategory" resultType="com.shop.fullstack.category.vo.CategoryVO">
+    SELECT 
+        dc.DETAIL_CATEGORY_ID, 
+        dc.FOREIGN_SUB_CATEGORY_ID, 
+        dc.FOREIGN_MAIN_CATEGORY_ID, 
+        dc.DETAIL_CATEGORY_NAME,
+        sc.SUB_CATEGORY_ID,
+        sc.SUB_CATEGORY_NAME,
+        mc.MAIN_CATEGORY_ID,
+        mc.MAIN_CATEGORY_NAME
+    FROM 
+        DetailCategory dc
+    INNER JOIN 
+        SubCategory sc 
+        ON dc.FOREIGN_SUB_CATEGORY_ID = sc.SUB_CATEGORY_ID
+    INNER JOIN 
+        MainCategory mc 
+        ON sc.FOREIGN_MAIN_CATEGORY_ID = mc.MAIN_CATEGORY_ID
+    WHERE 
+        dc.DETAIL_CATEGORY_ID = #{detailCategoryId}
+</select>
+
+	<select id="findBySubCategoryId" parameterType="int"
+		resultType="com.shop.fullstack.category.vo.CategoryVO">
+		SELECT
+		dc.DETAIL_CATEGORY_ID AS detailCategoryId,
+		dc.FOREIGN_SUB_CATEGORY_ID AS foreignSubCategoryId,
+		dc.DETAIL_CATEGORY_NAME AS detailCategoryName,
+		sc.SUB_CATEGORY_ID AS subCategoryId,
+		sc.SUB_CATEGORY_NAME AS subCategoryName,
+		mc.MAIN_CATEGORY_ID AS mainCategoryId,
+		mc.MAIN_CATEGORY_NAME AS mainCategoryName
+		FROM
+		DetailCategory dc
+		JOIN
+		SubCategory sc ON dc.FOREIGN_SUB_CATEGORY_ID = sc.SUB_CATEGORY_ID
+		JOIN
+		MainCategory mc ON sc.FOREIGN_MAIN_CATEGORY_ID = mc.MAIN_CATEGORY_ID
+		WHERE
+		dc.FOREIGN_SUB_CATEGORY_ID = #{subCategoryId}
+	</select>
+
+	<insert id="insertDetailCategory">
+		INSERT INTO DetailCategory (FOREIGN_MAIN_CATEGORY_ID,
+		FOREIGN_SUB_CATEGORY_ID, DETAIL_CATEGORY_NAME)
+		VALUES
+		(#{foreignMainCategoryId}, #{foreignSubCategoryId},
+		#{detailCategoryName})
+	</insert>
+
+	<update id="updateDetailCategory">
+		UPDATE DetailCategory
+		SET DETAIL_CATEGORY_NAME =
+		#{detailCategoryName}
+		WHERE DETAIL_CATEGORY_ID = #{detailCategoryId}
+	</update>
+
+	<delete id="deleteDetailCategory">
+		DELETE FROM DetailCategory WHERE DETAIL_CATEGORY_ID =
+		#{detailCategoryId}
+	</delete>
+
+</mapper>

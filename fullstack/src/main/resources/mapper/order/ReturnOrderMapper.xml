@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.RefundOrderMapper">
+
+	<select id="selectRefundOrders" resultType="com.shop.fullstack.order.vo.RefundOrderVO">
+		SELECT * FROM REFUND_ORDER
+	</select>
+
+	<select id="selectRefundOrder" resultType="com.shop.fullstack.order.vo.RefundOrderVO">
+		SELECT * FROM REFUND_ORDER WHERE RFO_NUM = #{rfoNum}
+	</select>
+	
+	<insert id="insertRefundOrder">
+		INSERT INTO REFUND_ORDER (OR_NUM, RFO_STATUS)
+		VALUES (#{orNum}, #{rfoStatus})
+	</insert>
+	
+	<update id="updateRefundOrder">
+		UPDATE REFUND_ORDER
+		SET OR_NUM = #{orNum},
+			RFO_STATUS = #{rfoStatus},
+			CLODAT = #{clodat}
+		WHERE RFO_NUM = #{rfoNum}
+	</update>
+	
+	<delete id="deleteRefundOrder">
+		DELETE FROM REFUND_ORDER WHERE RFO_NUM = #{rfoNum}
+	</delete>
+	
+</mapper>

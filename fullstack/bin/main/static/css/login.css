@@ -1,0 +1,62 @@
+
+
+.login-page-container {
+    margin: 50px auto;
+    background-color: aliceblue;
+
+}
+
+
+
+.login-page-container {
+    max-width: 73%;
+    background-color: var(--bright-back-color);
+    margin: 50px auto;
+}
+.mobile .login-page-container {
+    max-width: 100%;
+    margin: 20px auto;
+}
+.login-page-header {
+    min-height: 5.3846153846rem;
+    line-height: 5.3846153846rem;
+    padding: 0 25px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 20px;
+}
+.mobile .login-page-header{
+    height:50px;
+    min-height:50px;
+    line-height: 50px;
+}
+.login-page-container .login-page-content {
+    padding: 46px 15px 113px;
+    margin: auto;
+    width: 50%;
+}
+.login-page-container .login-page-content.welcome {
+	padding: 200px 15px 200px;
+}
+
+.login-page-content p.info {
+    font-size: 14px;
+    text-align: left;
+    margin: 15px 0 30px;
+}
+.mobile .login-page-content p.info {
+    margin: 0 0 20px;
+}
+.login-page-content .button-base {
+    margin-top: 40px;
+}
+.mobile .login-page-content .button-base{
+    margin-top:0px;
+}
+.mobile .login-page-container .login-page-content{
+    width:100%;
+    padding:20px 40px;
+}
+
+#showPwdLabel{
+    display: block;
+}

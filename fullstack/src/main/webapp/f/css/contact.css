@@ -1,0 +1,20 @@
+.contact p{
+    margin-bottom: 20px;
+    line-height: 1.1rem;
+}
+.main-container .title{
+	background:none;
+	padding: 25px 0; 
+}
+.main-container .body{
+	padding:25px;
+}
+.col-md-10{
+	width:66%;
+}
+.col-md-2{
+	width:34%;
+}
+.col-md-6{
+	width:50%;
+}

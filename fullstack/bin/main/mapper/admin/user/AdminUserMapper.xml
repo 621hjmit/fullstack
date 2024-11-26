@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.admin.user.mapper.AdminUserMapper">
+  <select id="getStat" resultType="com.shop.fullstack.admin.user.vo.StatisticsVO">
+		
+			SELECT 'new' AS description, COUNT(1) AS count
+			FROM user_info
+			WHERE CREDAT = DATE_FORMAT(CURDATE(), '%Y%m%d')
+			
+			UNION ALL
+			
+			SELECT 'visit' AS description, COUNT(1) AS count
+			FROM visit_info
+			WHERE DATE(VI_VISIT_DATE) = CURDATE()
+			
+			UNION ALL
+			
+			SELECT 'cancel' AS description, COUNT(1) AS count
+			FROM user_info
+			WHERE UI_OUT != '0' 
+			AND OUTDAT BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 7 DAY, '%Y%m%d') AND DATE_FORMAT(CURDATE(), '%Y%m%d')
+			
+			UNION ALL
+			
+			SELECT 'dormant' AS description, COUNT(1) AS count
+			FROM user_info
+			WHERE UI_DORMANT != '0' AND UI_OUT ='0'
+					
+			UNION ALL
+			
+			SELECT 'total' AS description, COUNT(1) AS count
+			FROM user_info
+			WHERE UI_DORMANT = '0' AND UI_OUT ='0';
+		
+  </select>
+  <select id="getNewMember" resultType="com.shop.fullstack.user.vo.UserInfoVO">
+    SELECT 
+		  U.CREDAT, U.UI_EMAIL, U.UI_LAST_NAME,
+		  U.UI_FIRST_NAME, M.UM_MEMO 
+		FROM user_info U 
+		LEFT JOIN user_memo M 
+		ON U.UI_NUM = M.UI_NUM 
+		GROUP BY U.UI_NUM
+		ORDER BY U.CREDAT DESC, U.CRETIM DESC
+		LIMIT 3;
+  </select>
+  <select id="memberInformationInquiry" resultType="com.shop.fullstack.user.vo.UserInfoVO">
+	  SELECT 
+		  U.CREDAT, U.UI_EMAIL, U.UI_LAST_NAME, U.UI_FIRST_NAME, UI_GENDER,
+		  U.UI_PHONE,U.UI_NUM, M.UM_MEMO, U.UI_TYPE ,G.GI_NUM, G.GI_NAME, U.UI_GENDER
+		FROM user_info U 
+		LEFT JOIN user_memo M 
+		  ON U.UI_NUM = M.UI_NUM
+		LEFT JOIN user_grade_info G
+		  ON U.GI_NUM = G.GI_NUM
+		WHERE U.UI_OUT = 0
+		GROUP BY U.UI_NUM
+		ORDER BY U.CREDAT DESC, U.CRETIM DESC
+		limit #{start},#{count};
+  </select>
+  
+  <select id="memberInformationInquiryTotal" resultType="int">
+    SELECT 
+      COUNT(DISTINCT U.UI_NUM)
+    FROM user_info U 
+    LEFT JOIN user_memo M 
+    	ON U.UI_NUM = M.UI_NUM
+		WHERE U.UI_OUT = 0
+      ORDER BY U.CREDAT DESC, U.CRETIM DESC;
+  </select>
+  <select id="memberInformationInquiry2" resultType="com.shop.fullstack.user.vo.UserInfoVO">
+    SELECT 
+      U.CREDAT, U.UI_EMAIL, U.UI_LAST_NAME, U.UI_FIRST_NAME, UI_GENDER,
+      U.UI_PHONE,U.UI_NUM, M.UM_MEMO, U.UI_TYPE ,G.GI_NUM, G.GI_NAME, O.CREDAT
+    FROM user_info U 
+    LEFT JOIN user_memo M 
+      ON U.UI_NUM = M.UI_NUM
+		LEFT JOIN user_grade_info G
+		  ON U.GI_NUM = G.GI_NUM
+		LEFT JOIN orders O
+		  ON U.UI_NUM = O.UI_NUM
+    <where>
+		    <if test="uiLastName != null and uiLastName != ''">
+		        AND U.UI_LAST_NAME LIKE CONCAT('%', #{uiLastName}, '%')
+		    </if>
+		    <if test="uiFirstName != null and uiFirstName != ''">
+		        AND U.UI_FIRST_NAME LIKE CONCAT('%', #{uiFirstName}, '%')
+		    </if>
+		    <if test="uiEmail != null and uiEmail != ''">
+		        AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+		    </if>
+		    <if test="uiPhone != null and uiPhone != ''">
+		        AND U.UI_PHONE LIKE CONCAT('%', #{uiPhone}, '%')
+		    </if>
+		    <if test="uiGender != null and uiGender != ''">
+		        AND U.UI_GENDER = #{uiGender}
+		    </if>
+		    <if test="uiType != null and uiType != ''">
+		        AND U.UI_TYPE = #{uiType}
+		    </if>
+		    <if test="giNum != null and giNum != ''">
+		        AND U.GI_NUM = #{giNum}
+		    </if>
+        <if test="otNum != null and otNum != ''">
+            AND U.OT_NUM = #{otNum}
+        </if> 
+		    <if test="uiStartDate != null and uiStartDate != ''">
+		      AND STR_TO_DATE(O.CREDAT, '%Y%m%d') &gt;= #{uiStartDate}
+		    </if>
+		    <if test="uiEndDate != null and uiEndDate != ''">
+		      AND STR_TO_DATE(O.CREDAT, '%Y%m%d') &lt;= #{uiEndDate}
+		    </if>
+        AND U.UI_OUT = 0
+    </where>
+    GROUP BY U.UI_NUM
+    ORDER BY U.CREDAT DESC, U.CRETIM DESC
+    limit #{start},#{count};
+  </select>
+  <select id="memberInformationInquiryTotal2" resultType="int">
+    SELECT 
+      COUNT(DISTINCT U.UI_NUM)
+		FROM user_info U 
+		LEFT JOIN user_memo M 
+		    ON U.UI_NUM = M.UI_NUM
+    LEFT JOIN orders O
+      ON U.UI_NUM = O.UI_NUM
+		<where>
+		    <if test="uiLastName != null and uiLastName != ''">
+		        AND U.UI_LAST_NAME LIKE CONCAT('%', #{uiLastName}, '%')
+		    </if>
+		    <if test="uiFirstName != null and uiFirstName != ''">
+		        AND U.UI_FIRST_NAME LIKE CONCAT('%', #{uiFirstName}, '%')
+		    </if>
+		    <if test="uiEmail != null and uiEmail != ''">
+		        AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+		    </if>
+		    <if test="uiPhone != null and uiPhone != ''">
+		        AND U.UI_PHONE LIKE CONCAT('%', #{uiPhone}, '%')
+		    </if>
+		    <if test="uiGender != null and uiGender != ''">
+		        AND U.UI_GENDER = #{uiGender}
+		    </if>
+		    <if test="uiType != null and uiType != ''">
+		        AND U.UI_TYPE = #{uiType}
+		    </if>
+		    <if test="giNum != null and giNum != ''">
+		        AND U.GI_NUM = #{giNum}
+		    </if>
+        <if test="uiStartDate != null and uiStartDate != ''">
+          AND STR_TO_DATE(O.CREDAT, '%Y%m%d') &gt;= #{uiStartDate}
+        </if>
+        <if test="uiEndDate != null and uiEndDate != ''">
+          AND STR_TO_DATE(O.CREDAT, '%Y%m%d') &lt;= #{uiEndDate}
+        </if>
+		    AND U.UI_OUT = 0
+		</where>
+		ORDER BY U.CREDAT DESC, U.CRETIM DESC;
+  </select>
+  
+  <select id="getOutMember" resultType="com.shop.fullstack.user.vo.UserInfoVO">
+    SELECT 
+      U.CREDAT, U.UI_EMAIL, U.UI_LAST_NAME, U.UI_FIRST_NAME, UI_GENDER,
+      U.UI_PHONE,U.UI_NUM, M.UM_MEMO, U.UI_TYPE ,G.GI_NUM, G.GI_NAME, U.OUTDAT
+    FROM user_info U 
+    LEFT JOIN user_memo M 
+      ON U.UI_NUM = M.UI_NUM
+		LEFT JOIN user_grade_info G
+		  ON U.GI_NUM = G.GI_NUM
+    <where>
+		    <if test="uiStartDate != null and uiStartDate != ''">
+		      AND STR_TO_DATE(U.OUTDAT, '%Y%m%d') &gt;= #{uiStartDate}
+		    </if>
+		    <if test="uiEndDate != null and uiEndDate != ''">
+		      AND STR_TO_DATE(U.OUTDAT, '%Y%m%d') &lt;= #{uiEndDate}
+		    </if>
+		    <if test="uiEmail != null and uiEmail != ''">
+		        AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+		    </if>
+        <if test="otNum != null and otNum != ''">
+            AND U.OT_NUM = #{otNum}
+        </if>
+        <if test="uiOut != null and uiOut != ''">
+            AND U.UI_OUT = #{uiOut}
+        </if>
+        AND U.UI_OUT &gt; 0
+    </where>
+    ORDER BY U.CREDAT DESC, U.CRETIM DESC
+    limit #{start},#{count};
+  </select>
+  
+  <select id="getOutMemberTotal" resultType="int">
+    SELECT 
+      count(*) 
+		FROM user_info U 
+		LEFT JOIN user_memo M 
+		  ON U.UI_NUM = M.UI_NUM
+		<where>
+		    <if test="uiStartDate != null and uiStartDate != ''">
+		      AND STR_TO_DATE(U.OUTDAT, '%Y%m%d') &gt;= #{uiStartDate}
+		    </if>
+		    <if test="uiEndDate != null and uiEndDate != ''">
+		      AND STR_TO_DATE(U.OUTDAT, '%Y%m%d') &lt;= #{uiEndDate}
+		    </if>
+		    <if test="uiEmail != null and uiEmail != ''">
+		        AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+		    </if>
+        <if test="otNum != null and otNum != ''">
+            AND U.OT_NUM = #{otNum}
+        </if>
+        <if test="uiOut != null and uiOut != ''">
+            AND U.UI_OUT = #{uiOut}
+        </if>
+		    AND U.UI_OUT &gt; 0
+		</where>
+  </select>
+  
+  
+  <select id="getDormantMember" resultType="com.shop.fullstack.user.vo.UserInfoVO">
+    SELECT 
+      U.UI_EMAIL, U.UI_LAST_NAME, U.UI_FIRST_NAME, UI_GENDER,
+      U.UI_PHONE, U.DORMDAT, UI_TYPE
+    FROM user_info U 
+		<where>
+	    <if test="uiStartDate != null and uiStartDate != ''">
+	      AND STR_TO_DATE(U.DORMDAT, '%Y%m%d') &gt;= #{uiStartDate}
+	    </if>
+	    <if test="uiEndDate != null and uiEndDate != ''">
+	      AND STR_TO_DATE(U.DORMDAT, '%Y%m%d') &lt;= #{uiEndDate}
+	    </if>
+	    <if test="uiFirstName != null and uiFirstName != ''">
+	        AND U.UI_FIRST_NAME LIKE CONCAT('%', #{uiFirstName}, '%')
+	    </if>
+	    <if test="uiLastName != null and uiLastName != ''">
+	        AND U.UI_LAST_NAME LIKE CONCAT('%', #{uiLastName}, '%')
+	    </if>
+	    <if test="uiEmail != null and uiEmail != ''">
+	        AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+	    </if>
+	    <if test="uiPhone != null and uiPhone != ''">
+	        AND U.UI_PHONE LIKE CONCAT('%', #{uiPhone}, '%')
+	    </if>
+       AND U.UI_DORMANT &gt; 0
+    </where>
+    limit #{start},#{count};
+  </select>
+  
+  <select id="getDormantMemberTotal" resultType="int">
+    SELECT 
+      count(*) 
+		FROM user_info U 
+		<where>
+		    <if test="uiStartDate != null and uiStartDate != ''">
+		      AND STR_TO_DATE(U.DORMDAT, '%Y%m%d') &gt;= #{uiStartDate}
+		    </if>
+		    <if test="uiEndDate != null and uiEndDate != ''">
+		      AND STR_TO_DATE(U.DORMDAT, '%Y%m%d') &lt;= #{uiEndDate}
+		    </if>
+		    <if test="uiFirstName != null and uiFirstName != ''">
+		      AND U.UI_FIRST_NAME LIKE CONCAT('%', #{uiFirstName}, '%')
+		    </if>
+		    <if test="uiLastName != null and uiLastName != ''">
+		      AND U.UI_LAST_NAME LIKE CONCAT('%', #{uiLastName}, '%')
+		    </if>
+		    <if test="uiEmail != null and uiEmail != ''">
+		      AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+		    </if>
+		    <if test="uiPhone != null and uiPhone != ''">
+		      AND U.UI_PHONE LIKE CONCAT('%', #{uiPhone}, '%')
+		    </if>
+        AND U.UI_DORMANT &gt; 0
+		</where>
+  </select>
+  <update id="updateGiNum">
+  	UPDATE user_info SET 
+  		GI_NUM=#{giNum} 
+  	WHERE  UI_NUM=#{uiNum};
+  </update>
+  <update id="updateType">
+  	UPDATE user_info SET 
+  		UI_TYPE= #{uiType}
+  	WHERE  UI_NUM=#{uiNum};
+  </update>
+  <update id="deleteUser">
+  	UPDATE user_info SET 
+  		UI_OUT= '2' 
+  	WHERE  UI_NUM=#{uiNum};
+  </update>
+  
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ProductMaterialMappingMapper">
+
+	<!-- Select Product Material Mapping by Product ID -->
+	<select id="selectProductMaterialMappings"
+		resultType="com.shop.fullstack.product.vo.ProductMaterialMappingVO">
+		SELECT *
+		FROM product_material_mapping
+	</select>
+
+	<select id="selectProductMaterialsByProductId"
+		parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductMaterialVO">
+		SELECT pm.*
+		FROM product_material_mapping pmm
+		JOIN product_material pm ON pmm.PM_ID = pm.PM_ID
+		WHERE pmm.PI_ID = #{piId}
+	</select>
+
+	<!-- Insert Product Material Mapping -->
+	<insert id="insertProductMaterialMapping">
+		INSERT INTO product_material_mapping (
+		PI_ID,
+		PM_ID
+		) VALUES (
+		#{piId},
+		#{pmId}
+		)
+	</insert>
+
+	<!-- Update Product Material Mapping -->
+	<update id="updateProductMaterialMapping">
+		UPDATE product_material_mapping
+		SET
+		PM_ID = #{pmId}
+		WHERE PI_ID = #{piId}
+	</update>
+
+	<!-- Delete Product Material Mapping by Product ID -->
+	<delete id="deleteProductMaterialMappingByProductId">
+		DELETE FROM product_material_mapping
+		WHERE PI_ID = #{piId}
+	</delete>
+
+</mapper>

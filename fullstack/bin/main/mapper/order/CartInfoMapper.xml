@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.CartInfoMapper">
+		
+	<select id="selectMyCartTotal" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM CART_INFO
+	    <where>
+	        <if test="uiNum != null and uiNum != ''">
+	        	AND UI_NUM = #{uiNum}
+	        </if>
+	        <if test="ciStatus != null and ciStatus != ''">
+	        	AND CI_STATUS = #{ciStatus}
+	        </if>
+	    </where>
+	</select>
+		
+	<select id="selectMyCart" resultType="com.shop.fullstack.order.vo.CartInfoVO">
+		SELECT * FROM CART_INFO
+		<where>
+	        <if test="uiNum != null and uiNum != ''">
+	        	AND UI_NUM = #{uiNum}
+	        </if>
+	        <if test="ciStatus != null and ciStatus != ''">
+	        	AND CI_STATUS = #{ciStatus}
+	        </if>
+	    </where>
+	</select>
+	
+	<select id="selectCart" resultType="com.shop.fullstack.order.vo.CartInfoVO">
+		SELECT * FROM CART_INFO WHERE CI_NUM=#{ciNum}
+	</select>
+	
+	<insert id="insertCart">
+		INSERT INTO CART_INFO (UI_NUM)
+		VALUES (#{uiNum})
+	</insert>
+	
+	<update id="updateCart">
+		UPDATE CART_INFO
+		SET UI_NUM = #{uiNum},
+			CI_STATUS = #{ciStatus}
+		WHERE CI_NUM = #{ciNum}
+	</update>
+	
+	<delete id="deleteCart">
+		DELETE FROM CART_INFO WHERE CI_NUM = #{ciNum}
+	</delete>
+
+</mapper>

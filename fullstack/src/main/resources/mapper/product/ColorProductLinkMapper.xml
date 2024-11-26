@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ColorProductLinkMapper">
+
+	<!-- 특정 제품의 LINK_ID 조회 -->
+	<select id="getLinkIdByProductId" parameterType="int"
+		resultType="int">
+		SELECT LINK_ID FROM color_product_link WHERE PI_ID =
+		#{productId}
+	</select>
+
+	<!-- 특정 제품에 대한 모든 LINK_ID 조회 (중복 체크용) -->
+	<select id="getLinkIdsByProductId" parameterType="int"
+		resultType="int">
+		SELECT LINK_ID FROM color_product_link WHERE PI_ID =
+		#{productId}
+	</select>
+
+	<!-- 중복 매핑 확인 -->
+	<select id="existsColorProductLink" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*) FROM color_product_link WHERE LINK_ID =
+		#{linkId} AND PI_ID
+		= #{productId}
+	</select>
+
+	<!-- 최대 LINK_ID 조회 쿼리 추가 -->
+	<select id="getMaxLinkId" resultType="java.lang.Integer">
+		SELECT MAX(LINK_ID) FROM
+		color_product_link
+	</select>
+
+	<!-- 제품과 LINK_ID 매핑 추가 -->
+	<insert id="addColorProductLink">
+		INSERT INTO color_product_link (LINK_ID, PI_ID)
+		VALUES (#{linkId}, #{piId})
+	</insert>
+
+	<!-- LINK_ID로 제품 매핑 삭제 -->
+	<delete id="deleteColorProductLinkByLinkId" parameterType="int">
+		DELETE FROM color_product_link WHERE LINK_ID = #{linkId}
+	</delete>
+
+	<!-- LINK_ID로 연결된 제품 ID 목록 조회 -->
+	<select id="selectProductIdsByLinkId" parameterType="int"
+		resultType="int">
+		SELECT PI_ID FROM color_product_link WHERE LINK_ID =
+		#{linkId}
+	</select>
+
+	<!-- LINK_ID로 연결된 제품 정보 조회 -->
+	<select id="getProductsByLinkId" parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductVO">
+		SELECT
+		p.*,
+		(SELECT PIMG_URL
+		FROM product_img
+		WHERE PI_ID =
+		p.PI_ID AND PIMG_NAME LIKE 'main_%'
+		ORDER BY PIMG_ID ASC
+		LIMIT 1) AS
+		pimgUrl
+		FROM product p
+		WHERE PI_ID IN (SELECT PI_ID FROM
+		color_product_link WHERE LINK_ID =
+		#{linkId})
+	</select>
+
+	<select id="getProductById" parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductVO">
+		SELECT
+		p.*,
+		(SELECT PIMG_URL
+		FROM product_img
+		WHERE PI_ID = p.PI_ID AND PIMG_NAME LIKE 'main_%'
+		ORDER BY PIMG_ID ASC
+		LIMIT 1) AS pimgUrl
+		FROM product p
+		WHERE p.PI_ID = #{productId}
+	</select>
+
+
+</mapper>

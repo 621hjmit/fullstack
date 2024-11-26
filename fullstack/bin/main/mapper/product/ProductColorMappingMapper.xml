@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ProductColorMappingMapper">
+	<!-- Select Product Color Mapping by Product ID -->
+	<select id="selectProductColorMappings"
+		resultType="com.shop.fullstack.product.vo.ProductColorMappingVO">
+		SELECT *
+		FROM product_color_mapping
+	</select>
+
+	<select id="selectProductColorsByProductId" parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductColorVO">
+		SELECT pc.*
+		FROM product_color_mapping pcm
+		JOIN product_color
+		pc ON pcm.PC_ID = pc.PC_ID
+		WHERE pcm.PI_ID = #{piId}
+	</select>
+
+	<!-- Insert Product Color Mapping -->
+	<insert id="insertProductColorMapping">
+		INSERT INTO product_color_mapping (
+		PI_ID,
+		PC_ID
+		)
+		VALUES (
+		#{piId},
+		#{pcId}
+		)
+	</insert>
+
+	<!-- 특정 제품의 색상 매핑 삭제 -->
+	<delete id="deleteProductColorMappingByProductId"
+		parameterType="int">
+		DELETE FROM product_color_mapping WHERE PI_ID = #{piId}
+	</delete>
+
+	<!-- PI_DETAIL_CATEGORY_ID로 특정 카테고리의 색상별 제품 수 조회 쿼리 -->
+	<select id="selectColorProductCountsByDetailCategory"
+		resultType="com.shop.fullstack.product.vo.ProductColorVO">
+		SELECT pcm.PC_ID, COUNT(*) AS itemCount
+		FROM
+		product_color_mapping pcm
+		JOIN product p ON pcm.PI_ID = p.PI_ID
+		WHERE
+		p.PI_DETAIL_CATEGORY_ID = #{detailCategoryId}
+		GROUP BY pcm.PC_ID
+	</select>
+
+</mapper>

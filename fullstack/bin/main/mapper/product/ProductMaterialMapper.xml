@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ProductMaterialMapper">
+
+	<select id="selectProductMaterials"
+		resultType="com.shop.fullstack.product.vo.ProductMaterialVO">
+		SELECT * FROM product_material
+	</select>
+
+	<select id="selectProductMaterial" parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductMaterialVO">
+		SELECT * FROM product_material WHERE PM_ID = #{pmId}
+	</select>
+
+	<insert id="insertProductMaterial"
+		parameterType="com.shop.fullstack.product.vo.ProductMaterialVO">
+		INSERT INTO product_material (PM_NAME) VALUES
+		(#{pmName})
+	</insert>
+
+	<update id="updateProductMaterial"
+		parameterType="com.shop.fullstack.product.vo.ProductMaterialVO">
+		UPDATE product_material
+		SET PM_NAME = #{pmName}
+		WHERE
+		PM_ID = #{pmId}
+	</update>
+
+	<delete id="deleteProductMaterial" parameterType="int">
+		DELETE FROM
+		product_material WHERE PM_ID = #{pmId}
+	</delete>
+
+	<select id="selectMaterialFilterItemCountByDetailCategoryId"
+		resultType="com.shop.fullstack.product.vo.ProductMaterialMappingVO">
+		SELECT
+		pm.PM_ID AS pmId,
+		pm.PM_NAME AS pmName,
+		COUNT(pmm.PM_ID) AS itemCount
+		FROM
+		product_material pm
+		LEFT JOIN
+		product_material_mapping pmm ON pm.PM_ID = pmm.PM_ID
+		LEFT JOIN
+		product p ON pmm.PI_ID = p.PI_ID
+		WHERE
+		p.PI_DETAIL_CATEGORY_ID = #{detailCategoryId}
+		GROUP BY
+		pm.PM_ID, pm.PM_NAME
+	</select>
+
+</mapper>

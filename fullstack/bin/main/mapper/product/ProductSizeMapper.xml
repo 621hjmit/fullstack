@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.product.mapper.ProductSizeMapper">
+
+    <select id="selectProductSizes" resultType="com.shop.fullstack.product.vo.ProductSizeVO">
+        SELECT * FROM product_size
+    </select>
+    
+    <select id="selectProductSize" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductSizeVO">
+        SELECT * FROM product_size WHERE PS_ID = #{psId}
+    </select>
+
+    <insert id="insertProductSize" parameterType="com.shop.fullstack.product.vo.ProductSizeVO">
+        INSERT INTO product_size (PS_NAME) VALUES (#{psName})
+    </insert>
+
+    <update id="updateProductSize" parameterType="com.shop.fullstack.product.vo.ProductSizeVO">
+        UPDATE product_size 
+        SET PS_NAME = #{psName} 
+        WHERE PS_ID = #{psId}
+    </update>
+
+    <delete id="deleteProductSize" parameterType="int">
+        DELETE FROM product_size WHERE PS_ID = #{psId}
+    </delete> 
+
+</mapper>

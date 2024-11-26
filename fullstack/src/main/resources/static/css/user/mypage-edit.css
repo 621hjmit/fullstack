@@ -1,0 +1,150 @@
+@charset "UTF-8";@charset "UTF-8";
+.j-c{
+	justify-content : center;
+}
+.m-auto{
+	margin:auto;
+}
+.margin-bottom-50{
+	margin-bottom:50px;
+}
+.margin-top-10 {
+  margin-top: 10px !important;
+}
+.margin-top-20 {
+  margin-top: 20px !important;
+}
+.margin-top-30 {
+  margin-top: 30px !important;
+}
+.margin-top-60 {
+  margin-top: 60px !important;
+}
+.page-side-list{
+	margin-top:20px;
+}
+.page-side-list a{
+	display:block;
+	padding:12px 0;
+}
+.page-header{
+  width:100%;
+}
+.flex-center{
+  justify-content: center;
+}
+.w-20p{
+  width: 20%;
+}
+.w-50p{
+  width: 50%;
+}
+
+.w-80p{
+  width: 80%;
+}
+.left-border{
+  border-right: 1px solid var(--border-color);
+}
+.m-large{
+	padding: 30px;
+}
+.user{
+  font-size: 14px;
+	
+}
+dt{
+	font-weight:bold;
+  color: var(--black-color);
+}
+dd{
+	padding-bottom:10px;
+}
+.btn-circle{
+	border-radius: 50%;
+}
+
+.back-color{
+	background-color: var(--border-color);
+}
+.btn-icon{
+	overflow:hidden;
+}
+.btn-icon>span{
+  display: inline-block;
+	text-indent:-999999px;
+}
+.btn-50px{
+	width:50px;
+	height:50px;
+	display:block;
+}
+.relative{
+	position:relative;
+}
+.absolute{
+	position:absolute;
+	right:0px;
+	top:-12px;
+}
+.icon-pen{
+  background-image:url('/static/images/pen.svg');
+  background-size:contain;
+  display:inline-block;
+  width:20px;
+  height:20px;
+  top:13px;
+  left:15px;
+  position:relative;
+  
+}
+.space-between{
+  justify-content: space-between;
+}
+.d-block{
+	display:block;
+}
+input[type=checkbox]{
+	width:20px;
+	height:20px;
+	margin:0;
+	position:relative;
+	top:5px;
+	cursor:pointer;
+}
+
+label[for=newsletter]{
+	display:block;
+	margin-left:10px;
+	cursor:pointer;
+}
+.light-color{
+	background-color:var(--border-color);
+	height: 1px;
+  border: none;
+}
+.button-outline-primary{
+  background: none;
+  border: 1px solid #444;
+  color: #444;
+  text-decoration: none;
+  line-height: calc((var(--font-size-cta)* 1.5) -(0* 2));
+}
+
+
+.user{
+  color: var(--gray-color);
+}
+.main-container .body{
+	padding:25px 25px 0;
+}
+.button-base{
+	font-weight:normal;
+}
+
+#ubReplyMessage{
+   background: white;
+   border: 1px solid var(--border-color);
+   padding: 24px;
+   font-weight: bold;
+}

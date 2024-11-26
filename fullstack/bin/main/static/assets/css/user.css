@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+dt, dd{
+  display:inline;
+}
+dt{
+	font-weight:normal;
+}

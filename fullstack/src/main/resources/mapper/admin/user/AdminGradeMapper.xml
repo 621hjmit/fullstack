@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.admin.user.mapper.AdminGradeMapper">
+	<select id="getGrade" resultType="com.shop.fullstack.user.vo.GradeInfoVO">
+	SELECT * FROM user_grade_info
+	ORDER BY GI_ORDER ASC;
+	</select>
+	<select id="getGradesName" resultType="com.shop.fullstack.user.vo.GradeInfoVO">
+	SELECT GI_NAME, GI_NUM FROM user_grade_info
+	ORDER BY GI_ORDER ASC;
+	</select>
+	<insert id="insertGrade">
+	INSERT INTO user_grade_info (GI_NAME, GI_DESC) VALUES (#{giName}, #{giDesc});
+	</insert>
+	<delete id="deleteGrades">
+    DELETE FROM user_grade_info
+    WHERE GI_NUM IN
+    <foreach item="giNum" collection="giNums" open="(" separator="," close=")">
+        #{giNum}
+    </foreach>
+  </delete>
+  <!-- 여러 개의 정보를 한 번에 업데이트하는 쿼리 -->
+  <update id="updateGrades">
+    <foreach collection="grades" item="grade" index="index" separator=";">
+      UPDATE user_grade_info SET 
+        GI_NAME = #{grade.giName}, GI_DESC = #{grade.giDesc}, GI_ORDER = #{grade.giOrder}
+      WHERE GI_NUM = #{grade.giNum}
+    </foreach>
+  </update>
+  
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.CancleOrderMapper">
+
+	<select id="selectCancleOrders" resultType="com.shop.fullstack.order.vo.CancleOrderVO">
+		SELECT * FROM CANCLE_ORDER
+	</select>
+
+	<select id="selectCancleOrder" resultType="com.shop.fullstack.order.vo.CancleOrderVO">
+		SELECT * FROM CANCLE_ORDER WHERE CO_NUM = #{coNum}
+	</select>
+	
+	<insert id="insertCancleOrder">
+		INSERT INTO CANCLE_ORDER (OR_NUM, CO_STATUS)
+		VALUES (#{orNum}, #{coStatus})
+	</insert>
+	
+	<update id="updateCancleOrder">
+		UPDATE CANCLE_ORDER
+		SET OR_NUM = #{orNum},
+			CO_STATUS = #{coStatus},
+			CLODAT = #{clodat}
+		WHERE CO_NUM = #{coNum}
+	</update>
+	
+	<delete id="deleteCancleOrder">
+		DELETE FROM CANCLE_ORDER WHERE CO_NUM = #{coNum}
+	</delete>
+	
+</mapper>

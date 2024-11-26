@@ -1,0 +1,13 @@
+@charset "UTF-8";
+.table-group-divider {
+    border-top: calc(1px* 2) solid #DBE0E5 !important;
+}
+.popover-body ul{
+	padding-left:1em;
+}
+.width-120px{
+	width: 120px;
+}
+.datepicker{
+  text-align: center;
+}

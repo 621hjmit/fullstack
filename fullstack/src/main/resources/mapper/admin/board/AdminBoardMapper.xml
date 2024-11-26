@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.admin.board.mapper.AdminBoardMapper">
+	<select id="getBoardsTotal">
+		SELECT COUNT(*) FROM user_board;
+	</select>
+	<select id="getResultCount">
+	SELECT 
+	  COUNT(*) AS COUNT
+	FROM user_board B 
+	LEFT JOIN user_info U ON B.UI_NUM = U.UI_NUM 
+	LEFT JOIN user_contact C ON C.UC_NUM = B.UC_NUM 
+	LEFT JOIN orders O ON O.UI_NUM = B.UI_NUM 
+	<where>
+      <if test="ubLastName != null and ubLastName != ''">
+          AND B.UB_LAST_NAME LIKE CONCAT('%', #{ubLastName}, '%')
+      </if>
+      <if test="ubFirstName != null and ubFirstName != ''">
+          AND B.UB_FIRST_NAME LIKE CONCAT('%', #{ubFirstName}, '%')
+      </if>
+      <if test="ubEmail != null and ubEmail != ''">
+          AND B.UB_EMAIL LIKE CONCAT('%', #{ubEmail}, '%')
+      </if>
+      <if test="ubPhone != null and ubPhone != ''">
+          AND B.UB_PHONE LIKE CONCAT('%', #{ubPhone}, '%')
+      </if>
+      <if test="ubTitle != null and ubTitle != ''">
+          AND B.UB_TITLE LIKE CONCAT('%', #{ubTitle}, '%')
+      </if>
+      <if test="ubMessage != null and ubMessage != ''">
+          AND B.UB_MESSAGE LIKE CONCAT('%', #{ubMessage}, '%')
+      </if>
+      <if test="ubReply != null and ubReply != ''">
+          AND B.UB_REPLY = #{ubReply}
+      </if>
+      <if test="ubStartDate != null and ubStartDate != ''">
+        AND STR_TO_DATE(B.UB_CREDAT, '%Y%m%d') &gt;= #{ubStartDate}
+      </if>
+      <if test="ubEndDate != null and ubEndDate != ''">
+        AND STR_TO_DATE(B.UB_CREDAT, '%Y%m%d') &lt;= #{ubEndDate}
+      </if>
+  </where>
+  LIMIT #{start},#{count};
+	</select>
+	<select id="getBoards">
+    SELECT 
+			ROW_NUMBER() OVER (ORDER BY B.UB_NUM ) + (#{count}*#{start}) AS UB_ROW_NUMBER, 
+			U.UI_LAST_NAME, U.UI_FIRST_NAME, U.UI_EMAIL, U.UI_PHONE, 
+			O.OR_ID, C.UC_TITLE, B.UB_TITLE, 
+			CASE
+	      WHEN B.UB_REPLY = 0 THEN '미답변'
+	      WHEN B.UB_REPLY = 1 THEN '답변완료'
+	      ELSE '기타'
+      END AS UB_REPLY, 
+			B.UB_MESSAGE, B.UB_NUM, B.UI_NUM,
+			DATE_FORMAT(B.UB_CREDAT, '%Y-%m-%d') AS UB_CREDAT 
+		FROM user_board B 
+		LEFT JOIN user_info U ON B.UI_NUM = U.UI_NUM 
+		LEFT JOIN user_contact C ON C.UC_NUM = B.UC_NUM 
+		LEFT JOIN orders O ON O.UI_NUM = B.UI_NUM 
+    <where>
+        <if test="ubLastName != null and ubLastName != ''">
+            AND B.UB_LAST_NAME LIKE CONCAT('%', #{ubLastName}, '%')
+        </if>
+        <if test="ubFirstName != null and ubFirstName != ''">
+            AND B.UB_FIRST_NAME LIKE CONCAT('%', #{ubFirstName}, '%')
+        </if>
+        <if test="ubEmail != null and ubEmail != ''">
+            AND B.UB_EMAIL LIKE CONCAT('%', #{ubEmail}, '%')
+        </if>
+        <if test="ubPhone != null and ubPhone != ''">
+            AND B.UB_PHONE LIKE CONCAT('%', #{ubPhone}, '%')
+        </if>
+        <if test="ubTitle != null and ubTitle != ''">
+            AND B.UB_TITLE LIKE CONCAT('%', #{ubTitle}, '%')
+        </if>
+        <if test="ubMessage != null and ubMessage != ''">
+            AND B.UB_MESSAGE LIKE CONCAT('%', #{ubMessage}, '%')
+        </if>
+        <if test="ubReply != null and ubReply != ''">
+            AND B.UB_REPLY = #{ubReply}
+        </if>
+        <if test="ubStartDate != null and ubStartDate != ''">
+          AND STR_TO_DATE(B.UB_CREDAT, '%Y%m%d') &gt;= #{ubStartDate}
+        </if>
+        <if test="ubEndDate != null and ubEndDate != ''">
+          AND STR_TO_DATE(B.UB_CREDAT, '%Y%m%d') &lt;= #{ubEndDate}
+        </if>
+    </where>
+		
+		GROUP BY B.UB_NUM
+		ORDER BY B.UB_NUM DESC
+    limit #{start},#{count};
+	</select>
+	<select id="getPostBody">
+		SELECT 
+			C.UC_TITLE, B.UB_TITLE, B.UB_LAST_NAME, 
+			B.UB_FIRST_NAME, B.UB_EMAIL, B.UB_MESSAGE,
+			DATE_FORMAT(B.UB_CREDAT, '%Y-%m-%d') AS UB_CREDAT 
+	  FROM user_board B
+	  LEFT JOIN user_info U ON B.UI_NUM = U.UI_NUM 
+		LEFT JOIN user_contact C ON C.UC_NUM = B.UC_NUM 
+		WHERE B.UB_NUM = #{ubNum}
+	  ;
+	</select>
+	<insert id="insertPostBody">
+		UPDATE user_board SET 
+			UB_REPLY = '1', 
+			UB_REPLY_MESSAGE = #{ubReplyMessage} ,
+			UB_REPLY_CREDAT = DATE_FORMAT(NOW(), '%Y%m%d') 
+		WHERE  UB_NUM = #{ubNum};
+	</insert>
+	<select id="getReplyMessage">
+		SELECT 
+			B.UB_REPLY_MESSAGE, B.UB_NUM
+	  FROM user_board B
+		WHERE B.UB_NUM = #{ubNum};
+	</select>
+	<update id="deleteReply" parameterType="int">
+		UPDATE user_board SET UB_REPLY_CREDAT=NULL, UB_REPLY=NULL , UB_REPLY_MESSAGE=NULL WHERE  UB_NUM = #{ubNum};
+	</update>
+	<update id="updateReply">
+		UPDATE user_board SET 
+			UB_REPLY= '1' , 
+			UB_REPLY_MESSAGE=#{ubReplyMessage}
+		WHERE  UB_NUM = #{ubNum};
+	</update>
+	<delete id="deletePost">
+		DELETE FROM user_board
+		WHERE UB_NUM = #{ubNum};
+	</delete>
+</mapper>

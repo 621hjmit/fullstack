@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.product.mapper.ProductAddInfoMapper">
+
+    <select id="selectProductAddInfos" resultType="com.shop.fullstack.product.vo.ProductAddInfoVO">
+        SELECT * FROM product_add_info
+    </select>
+    
+    <select id="selectProductAddInfo" resultType="com.shop.fullstack.product.vo.ProductAddInfoVO">
+        SELECT * FROM product_add_info WHERE PAI_ID = #{paiId} 
+    </select>
+
+    <insert id="insertProductAddInfo">
+        INSERT INTO product_add_info (PAI_DESC) VALUES (#{paiDesc})
+    </insert>
+
+
+    <update id="updateProductAddInfo">
+        UPDATE product_add_info 
+        SET PAI_DESC = #{paiDesc} 
+        WHERE PAI_ID = #{paiId}
+    </update>
+
+
+    <delete id="deleteProductAddInfo">
+        DELETE FROM product_add_info WHERE PAI_ID = #{paiId}
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.pc-sidebar {
+  width: 220px;
+}
+.pc-header {
+  left: 220px;
+}
+.pc-sidebar .navbar-wrapper {
+  width: 220px;
+}

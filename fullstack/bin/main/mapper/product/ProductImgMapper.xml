@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ProductImgMapper">
+
+	<!-- Select All Product Images -->
+	<select id="selectProductImgs"
+		resultType="com.shop.fullstack.product.vo.ProductImgVO">
+		SELECT * FROM product_img
+	</select>
+
+	<!-- Select Product Image by Product ID -->
+	<select id="selectProductImg"
+		resultType="com.shop.fullstack.product.vo.ProductImgVO">
+		SELECT * FROM product_img WHERE PI_ID = #{piId}
+	</select>
+
+	<!-- Product에 연결된 이미지 정보 조회 쿼리 -->
+	<select id="selectImagesByProductId" parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductImgVO">
+		SELECT pimg_id, pi_id, pimg_name, pimg_url, pimg_credat
+		FROM product_img
+		WHERE pi_id = #{piId}
+	</select>
+
+	<!-- Insert Product Image -->
+	<insert id="insertProductImg" parameterType="com.shop.fullstack.product.vo.ProductImgVO">
+        INSERT INTO product_img (PI_ID, PIMG_NAME, PIMG_URL)
+        VALUES (#{piId}, #{pimgName}, #{pimgUrl})
+    </insert>
+
+	<!-- Update Product Image -->
+	<update id="updateProductImg">
+		UPDATE product_img
+		SET
+		PIMG_NAME = #{pimgName},
+		PIMG_URL = #{pimgUrl}
+		WHERE
+		PIMG_ID = #{pimgId}
+	</update>
+
+	<!-- Delete Product Image by Product ID -->
+	<delete id="deleteProductImg">
+		DELETE FROM product_img WHERE PI_ID = #{piId}
+	</delete>
+</mapper>

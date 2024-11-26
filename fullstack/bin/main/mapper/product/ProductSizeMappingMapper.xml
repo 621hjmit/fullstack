@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.product.mapper.ProductSizeMappingMapper">
+
+    <!-- Select Product Size Mapping by Product ID -->
+    <select id="selectProductSizeMappings" resultType="com.shop.fullstack.product.vo.ProductSizeMappingVO">
+        SELECT *
+        FROM product_size_mapping
+    </select>
+
+     <select id="selectProductSizesByProductId" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductSizeVO">
+        SELECT ps.*
+        FROM product_size_mapping psm
+        JOIN product_size ps ON psm.PS_ID = ps.PS_ID
+        WHERE psm.PI_ID = #{piId}
+    </select>
+
+    <!-- Insert Product Size Mapping --> 
+    <insert id="insertProductSizeMapping">
+        INSERT INTO product_size_mapping (
+            PI_ID,
+            PS_ID
+        ) VALUES (
+            #{piId},
+            #{psId}
+        )
+    </insert>
+
+    <!-- 제품의 기존 사이즈 매핑 삭제 -->
+    <delete id="deleteProductSizeMappingByProductId" parameterType="int">
+        DELETE FROM product_size_mapping WHERE PI_ID = #{piId}
+    </delete>
+    
+    <select id="selectSizeById" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductSizeMappingVO">
+        SELECT *
+        FROM product_size
+        WHERE PS_ID = #{sizeId}
+    </select>
+
+</mapper>

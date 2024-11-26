@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.admin.user.mapper.AdminOrderUserMapper">
+  <select id="getAdminOrderUserList" resultType="com.shop.fullstack.user.vo.UserInfoVO">
+		SELECT
+		    O.OR_NUM,
+		    O.CREDAT AS OR_CREDAT,
+		    U.UI_LAST_NAME,
+		    U.UI_FIRST_NAME,
+		    U.UI_EMAIL,
+		    G.GI_NAME,
+		    U.UI_TYPE,
+		    O.OR_ID,
+		    O.OR_AMOUNT,
+		    U.UI_NUM,
+		    COUNT(O.OR_NUM) AS OR_COUNT  -- 주문 건수를 추가
+		FROM user_info U
+		INNER JOIN orders O ON U.UI_NUM = O.UI_NUM
+		LEFT JOIN user_grade_info G ON U.GI_NUM = G.GI_NUM
+		GROUP BY U.UI_NUM
+		ORDER BY O.OR_NUM
+		LIMIT #{start},#{count};
+  </select>
+  
+  <select id="getAdminOrderUsersTotal" resultType="int">
+		SELECT
+		  count(DISTINCT U.UI_NUM)
+		FROM
+		  user_info U
+		INNER JOIN orders O ON U.UI_NUM = O.UI_NUM
+		LEFT JOIN user_grade_info G ON U.GI_NUM = G.GI_NUM
+		ORDER BY
+		    O.OR_NUM
+  </select>
+  
+  <select id="getAdminOrderUserList2" resultType="com.shop.fullstack.user.vo.UserInfoVO">
+		SELECT        
+		  O.OR_NUM, O.CREDAT AS OR_CREDAT, U.UI_LAST_NAME, 
+		  U.UI_FIRST_NAME, U.UI_EMAIL,G.GI_NAME,U.UI_TYPE,
+		  O.OR_ID, O.OR_AMOUNT,COUNT(O.OR_NUM) AS OR_COUNT,
+		  U.UI_NUM
+		FROM user_info U     
+		INNER JOIN orders O ON U.UI_NUM = O.UI_NUM     
+		LEFT JOIN user_grade_info G ON U.GI_NUM = G.GI_NUM   
+    <where>
+        <if test="uiLastName != null and uiLastName != ''">
+            AND U.UI_LAST_NAME LIKE CONCAT('%', #{uiLastName}, '%')
+        </if>
+        <if test="uiFirstName != null and uiFirstName != ''">
+            AND U.UI_FIRST_NAME LIKE CONCAT('%', #{uiFirstName}, '%')
+        </if>
+        <if test="uiEmail != null and uiEmail != ''">
+            AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+        </if>
+        <if test="uiPhone != null and uiPhone != ''">
+            AND U.UI_PHONE = #{uiPhone}
+        </if>
+        <if test="uiType != null and uiType != ''">
+            AND U.UI_TYPE = #{uiType}
+        </if>
+        <if test="giNum != null and giNum != ''">
+            AND U.GI_NUM = #{giNum}
+        </if>
+        <if test="orId != null and orId != ''">
+            AND O.OR_ID = #{orId}
+        </if>
+    </where>
+		GROUP BY U.UI_NUM      
+		ORDER BY O.OR_NUM
+    limit #{start},#{count};
+  </select>
+  <select id="getAdminOrderUsersTotal2" resultType="int">
+    SELECT
+      count(DISTINCT U.UI_NUM)
+    FROM
+      user_info U
+    INNER JOIN orders O ON U.UI_NUM = O.UI_NUM
+    LEFT JOIN user_grade_info G ON U.GI_NUM = G.GI_NUM
+    <where>
+        <if test="uiLastName != null and uiLastName != ''">
+            AND U.UI_LAST_NAME LIKE CONCAT('%', #{uiLastName}, '%')
+        </if>
+        <if test="uiFirstName != null and uiFirstName != ''">
+            AND U.UI_FIRST_NAME LIKE CONCAT('%', #{uiFirstName}, '%')
+        </if>
+        <if test="uiEmail != null and uiEmail != ''">
+            AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+        </if>
+        <if test="uiPhone != null and uiPhone != ''">
+            AND U.UI_PHONE = #{uiPhone}
+        </if>
+        <if test="uiType != null and uiType != ''">
+            AND U.UI_TYPE = #{uiType}
+        </if>
+        <if test="giNum != null and giNum != ''">
+            AND U.GI_NUM = #{giNum}
+        </if>
+        <if test="orId != null and orId != ''">
+            AND O.OR_ID = #{orId}
+        </if>
+    </where>
+  </select>
+  <select id="membersWithoutOrders">
+		SELECT        
+		  U.UI_NUM, O.CREDAT AS OR_CREDAT, U.UI_LAST_NAME, 
+		  U.UI_FIRST_NAME, U.UI_EMAIL, G.GI_NAME, U.UI_TYPE,U.UI_NUM
+		FROM user_info U     
+		LEFT JOIN orders O ON U.UI_NUM = O.UI_NUM  
+		LEFT JOIN user_grade_info G ON U.GI_NUM = G.GI_NUM  
+    <where>
+    		AND O.OR_NUM IS NULL
+        <if test="uiLastName != null and uiLastName != ''">
+            AND U.UI_LAST_NAME LIKE CONCAT('%', #{uiLastName}, '%')
+        </if>
+        <if test="uiFirstName != null and uiFirstName != ''">
+            AND U.UI_FIRST_NAME LIKE CONCAT('%', #{uiFirstName}, '%')
+        </if>
+        <if test="uiEmail != null and uiEmail != ''">
+            AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+        </if>
+        <if test="uiPhone != null and uiPhone != ''">
+            AND U.UI_PHONE = #{uiPhone}
+        </if>
+        <if test="uiType != null and uiType != ''">
+            AND U.UI_TYPE = #{uiType}
+        </if>
+        <if test="giNum != null and giNum != ''">
+            AND U.GI_NUM = #{giNum}
+        </if>
+        <if test="orId != null and orId != ''">
+            AND O.OR_ID = #{orId}
+        </if>
+    </where>;
+  </select>
+  
+  <select id="membersWithoutOrdersTotal">
+		SELECT        
+		  COUNT(*)
+		FROM user_info U     
+		LEFT JOIN orders O ON U.UI_NUM = O.UI_NUM  
+		LEFT JOIN user_grade_info G ON U.GI_NUM = G.GI_NUM  
+    <where>
+    		AND O.OR_NUM IS NULL
+        <if test="uiLastName != null and uiLastName != ''">
+            AND U.UI_LAST_NAME LIKE CONCAT('%', #{uiLastName}, '%')
+        </if>
+        <if test="uiFirstName != null and uiFirstName != ''">
+            AND U.UI_FIRST_NAME LIKE CONCAT('%', #{uiFirstName}, '%')
+        </if>
+        <if test="uiEmail != null and uiEmail != ''">
+            AND U.UI_EMAIL LIKE CONCAT('%', #{uiEmail}, '%')
+        </if>
+        <if test="uiPhone != null and uiPhone != ''">
+            AND U.UI_PHONE = #{uiPhone}
+        </if>
+        <if test="uiType != null and uiType != ''">
+            AND U.UI_TYPE = #{uiType}
+        </if>
+        <if test="giNum != null and giNum != ''">
+            AND U.GI_NUM = #{giNum}
+        </if>
+        <if test="orId != null and orId != ''">
+            AND O.OR_ID = #{orId}
+        </if>
+    </where>;
+  </select>
+</mapper>

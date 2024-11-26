@@ -1,0 +1,19 @@
+
+searchOutType
+ui_out
+
+searchID
+텍스트인풋
+searchGrade2
+등급 불러오기 셀렉박스
+searchOutType
+셀렉트박스 탈퇴사유
+userList
+테이블 바디 위치
+
+input[name=period]
+
+input[name=range-start]
+input[name=range-end]
+
+countPerPage

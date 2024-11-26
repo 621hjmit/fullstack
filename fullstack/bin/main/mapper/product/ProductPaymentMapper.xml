@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.product.mapper.ProductPaymentMapper">
+
+    <select id="selectProductPayments" resultType="com.shop.fullstack.product.vo.ProductPaymentVO">
+        SELECT * FROM product_payment
+    </select>
+    
+    <select id="selectProductPayment" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductPaymentVO">
+        SELECT * FROM product_payment WHERE PP_ID = #{ppId}
+    </select>
+
+    <insert id="insertProductPayment" parameterType="com.shop.fullstack.product.vo.ProductPaymentVO">
+        INSERT INTO product_payment (PP_DESC) VALUES (#{ppDesc})
+    </insert>
+
+    <update id="updateProductPayment" parameterType="com.shop.fullstack.product.vo.ProductPaymentVO">
+        UPDATE product_payment 
+        SET PP_DESC = #{ppDesc} 
+        WHERE PP_ID = #{ppId}
+    </update>
+
+    <delete id="deleteProductPayment" parameterType="int">
+        DELETE FROM product_payment WHERE PP_ID = #{ppId}
+    </delete>
+
+</mapper>

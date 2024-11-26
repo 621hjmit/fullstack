@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.DeliveryComInfoMapper">
+
+	<select id="selectDeliveryComs" resultType="com.shop.fullstack.order.vo.DeliverycomInfoVO">
+		SELECT * FROM DELIVERY_COM_INFO
+	</select>
+	
+	<select id="selectDeliveryCom" resultType="com.shop.fullstack.order.vo.DeliverycomInfoVO">
+		SELECT * FROM DELIVERY_COM_INFO WHERE DCI_NUM = #{dciNum}
+	</select>
+	
+	<insert id="insertDeliveryCom">
+		INSERT INTO DELIVERY_COM_INFO 
+			(DCI_NAME, DCI_ID, DCI_CONTACT, DCI_PHONE, 
+			DCI_EMAIL, DCI_STARTDATE, DCI_ENDDATE)
+		VALUES
+			(#{dciName}, #{dciId}, #{dciContact}, #{dciPhone}, 
+			#{dciEmail}, #{dciStartDate}, #{dciEndDate})
+	</insert>
+	
+	<insert id="insertDeliveryComs">
+		<foreach collection = "deliveryComs" item="deliveryCom" separator=";" open="" close="">
+			INSERT INTO DELIVERY_COM_INFO 
+				(DCI_NAME, DCI_ID, DCI_CONTACT, DCI_PHONE, 
+				DCI_EMAIL, DCI_STARTDATE, DCI_ENDDATE)
+			VALUES
+				(#{deliveryCom.dciName}, #{deliveryCom.dciId}, #{deliveryCom.dciContact}, #{deliveryCom.dciPhone}, 
+				#{deliveryCom.dciEmail}, #{deliveryCom.dciStartDate}, #{deliveryCom.dciEndDate})
+		</foreach>
+	</insert>
+	
+	<update id="updateDeliveryCom">
+		UPDATE DELIVERY_COM_INFO
+		SET DCI_NAME = #{dciName},
+			DCI_ID = #{dciId},
+			DCI_CONTACT = #{dciContact},
+			DCI_PHONE = #{dciPhone},
+			DCI_EMAIL = #{dciEmail},
+			DCI_STARTDATE = #{dciStartDate},
+			DCI_ENDDATE = #{dciEndDate}
+		WHERE DCI_NUM = #{dciNum}
+	</update>
+	
+	<update id="updateDeliveryComs">
+		<foreach collection="deliveryComs" item="deliveryCom" separator=";" open="" close="">
+			UPDATE DELIVERY_COM_INFO
+			SET DCI_NAME = #{deliveryCom.dciName},
+				DCI_ID = #{deliveryCom.dciId},
+				DCI_CONTACT = #{deliveryCom.dciContact},
+				DCI_PHONE = #{deliveryCom.dciPhone},
+				DCI_EMAIL = #{deliveryCom.dciEmail},
+				DCI_STARTDATE = #{deliveryCom.dciStartDate},
+				DCI_ENDDATE = #{deliveryCom.dciEndDate}
+			WHERE DCI_NUM = #{deliveryCom.dciNum}
+		</foreach>
+	</update>
+	
+	<delete id="deleteDeliveryCom">
+		DELETE FROM DELIVERY_COM_INFO WHERE DCI_NUM = #{dciNum}
+	</delete>
+	
+	<select id="selectRowCount" resultType="int">
+		SELECT ROW_COUNT()
+	</select>
+
+</mapper>

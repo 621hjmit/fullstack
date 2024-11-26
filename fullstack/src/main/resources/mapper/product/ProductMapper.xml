@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ProductMapper">
+
+	<!-- 등록된 전체 제품 수 -->
+	<select id="countTotalProducts" resultType="int">
+		SELECT COUNT(*) FROM
+		product
+	</select>
+
+	<!-- Select Products -->
+	<select id="selectProducts"
+		parameterType="com.shop.fullstack.product.vo.ProductVO"
+		resultType="com.shop.fullstack.product.vo.ProductVO">
+		SELECT
+		p.PI_ID,
+		p.PI_CODE,
+		p.PI_NAME,
+		p.PI_PRICE,
+		p.PI_MAIN_CATEGORY_ID,
+		p.PI_SUB_CATEGORY_ID,
+		p.PI_DETAIL_CATEGORY_ID,
+		(SELECT PIMG_URL
+		FROM
+		product_img
+		WHERE PI_ID = p.PI_ID
+		AND PIMG_NAME LIKE 'main_%'
+		ORDER BY
+		PIMG_ID DESC
+		LIMIT 1) AS pimgUrl,
+
+		GROUP_CONCAT(DISTINCT c.PC_NAME) AS
+		colorList,
+
+		GROUP_CONCAT(DISTINCT s.PS_NAME) AS sizeList,
+
+		GROUP_CONCAT(DISTINCT m.PM_NAME) AS materialList
+
+		FROM product p
+
+		LEFT
+		JOIN product_color_mapping pcm ON p.PI_ID = pcm.PI_ID
+		LEFT JOIN
+		product_color c ON pcm.PC_ID = c.PC_ID
+
+		LEFT JOIN product_size_mapping
+		psm ON p.PI_ID = psm.PI_ID
+		LEFT JOIN product_size s ON psm.PS_ID =
+		s.PS_ID
+
+		LEFT JOIN product_material_mapping pmm ON p.PI_ID = pmm.PI_ID
+		LEFT JOIN product_material m ON pmm.PM_ID = m.PM_ID
+
+		GROUP BY p.PI_ID
+		ORDER BY p.PI_ID DESC
+		<if test="itemsPerPage != null and offset != null">
+			LIMIT #{itemsPerPage} OFFSET #{offset}
+		</if>
+	</select>
+
+	<select id="selectProductById" parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductVO">
+		SELECT
+		p.PI_ID,
+		p.PI_CODE,
+		p.PI_NAME,
+		p.PI_PRICE,
+		p.PI_COUNTRY_OF_ORIGIN,
+		p.PI_STORY,
+		p.PI_MAIN_CATEGORY_ID,
+		p.PI_SUB_CATEGORY_ID,
+		p.PI_DETAIL_CATEGORY_ID,
+		p.PI_COLOR_TITLE,
+		p.PI_MATERIAL_TITLE,
+		(SELECT PIMG_URL
+		FROM product_img
+		WHERE PI_ID =
+		p.PI_ID AND PIMG_NAME LIKE 'main_%'
+		ORDER BY PIMG_ID ASC
+		LIMIT 1) AS
+		pimgUrl,
+		(SELECT GROUP_CONCAT(PIMG_URL)
+		FROM
+		product_img
+		WHERE PI_ID =
+		p.PI_ID AND PIMG_NAME LIKE 'detail_%') AS
+		productImgs,
+		(SELECT
+		GROUP_CONCAT(pcm.PC_ID)
+		FROM
+		product_color_mapping pcm
+		WHERE pcm.PI_ID =
+		p.PI_ID) AS colorIds,
+		(SELECT GROUP_CONCAT(psm.PS_ID)
+		FROM
+		product_size_mapping psm
+		WHERE psm.PI_ID = p.PI_ID) AS sizeIds,
+		(SELECT
+		GROUP_CONCAT(pmm.PM_ID)
+		FROM product_material_mapping pmm
+		WHERE
+		pmm.PI_ID = p.PI_ID) AS materialIds,
+		(SELECT
+		GROUP_CONCAT(PMI_DESC)
+		FROM
+		product_main_info pmi
+		WHERE pmi.PI_ID =
+		p.PI_ID) AS mainInfos,
+		pdi.PDI_HEIGHT,
+		pdi.PDI_SIZE
+		FROM
+		product p
+		LEFT JOIN product_detail_info
+		pdi ON p.PI_ID = pdi.PI_ID
+		WHERE p.PI_ID = #{piId}
+	</select>
+
+	<select id="selectProductCareDescriptions" parameterType="int"
+		resultType="string">
+		SELECT
+		pcd.PCD_DESC
+		FROM
+		product p
+		JOIN
+		product_material_mapping pmm ON p.PI_ID = pmm.PI_ID
+		JOIN
+		product_material pm ON pmm.PM_ID = pm.PM_ID
+		JOIN
+		product_care_desc pcd
+		ON pm.PM_ID = pcd.PM_ID
+		WHERE
+		p.PI_ID = #{piId}
+	</select>
+
+	<!-- Select Product Images by Product ID -->
+	<select id="selectProductImages" parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductImgVO">
+		SELECT
+		PIMG_ID,
+		PI_ID,
+		PIMG_NAME,
+		PIMG_URL,
+		PIMG_CREDAT
+		FROM
+		product_img
+		WHERE PI_ID = #{piId}
+		AND PIMG_NAME LIKE 'detail_%'
+	</select>
+
+	<resultMap id="ProductResultMap"
+		type="com.shop.fullstack.product.vo.ProductVO">
+		<!-- 일반 필드는 자동 매핑에 맡깁니다 (map-underscore-to-camel-case 설정을 통해 자동 매핑) -->
+
+		<!-- GROUP_CONCAT 결과를 매핑하기 위한 리스트 필드 설정 -->
+		<result property="colorList" column="colorList"
+			typeHandler="com.shop.fullstack.common.util.StringToListTypeHandler" />
+		<result property="sizeList" column="sizeList"
+			typeHandler="com.shop.fullstack.common.util.StringToListTypeHandler" />
+		<result property="materialList" column="materialList"
+			typeHandler="com.shop.fullstack.common.util.StringToListTypeHandler" />
+	</resultMap>
+
+	<!-- Select Products by Detail Category ID -->
+	<select id="selectProductsByDetailCategoryId"
+		resultMap="ProductResultMap">
+		SELECT
+		p.PI_ID AS piId,
+		p.PI_NAME AS piName,
+		p.PI_PRICE AS
+		piPrice,
+
+		-- 메인 이미지 URL
+		(SELECT pi.PIMG_URL
+		FROM product_img pi
+		WHERE
+		pi.PI_ID = p.PI_ID
+		AND pi.PIMG_NAME LIKE 'main_%'
+		LIMIT 1) AS imageUrl,
+
+		-- 컬러 리스트
+		(SELECT GROUP_CONCAT(DISTINCT pc.PC_NAME)
+		FROM
+		product_color_mapping pcm
+		JOIN product_color pc ON pcm.PC_ID = pc.PC_ID
+		WHERE pcm.PI_ID = p.PI_ID) AS colorList,
+
+		-- 사이즈 리스트
+		(SELECT
+		GROUP_CONCAT(DISTINCT ps.PS_NAME)
+		FROM product_size_mapping psm
+		JOIN
+		product_size ps ON psm.PS_ID = ps.PS_ID
+		WHERE psm.PI_ID = p.PI_ID) AS
+		sizeList,
+
+		-- 소재 리스트
+		(SELECT GROUP_CONCAT(DISTINCT pm.PM_NAME)
+		FROM
+		product_material_mapping pmm
+		JOIN product_material pm ON pmm.PM_ID =
+		pm.PM_ID
+		WHERE pmm.PI_ID = p.PI_ID) AS materialList
+
+		FROM product p
+		WHERE
+		p.PI_DETAIL_CATEGORY_ID = #{detailCategoryId}
+		ORDER BY p.PI_ID DESC
+	</select>
+
+	<!-- Insert Product -->
+	<insert id="insertProduct"
+		parameterType="com.shop.fullstack.product.vo.ProductVO"
+		useGeneratedKeys="true" keyProperty="piId">
+		INSERT INTO product (
+		PI_CODE,
+		PI_NAME,
+		PI_PRICE,
+		PI_COUNTRY_OF_ORIGIN,
+		PI_STORY,
+		PI_MAIN_CATEGORY_ID,
+		PI_SUB_CATEGORY_ID,
+		PI_DETAIL_CATEGORY_ID,
+		PI_COLOR_TITLE,
+		PI_MATERIAL_TITLE
+		) VALUES (
+		#{piCode},
+		#{piName},
+		#{piPrice},
+		#{piCountryOfOrigin},
+		#{piStory},
+		#{piMainCategoryId},
+		#{piSubCategoryId},
+		#{piDetailCategoryId},
+		#{piColorTitle},
+		#{piMaterialTitle}
+		)
+	</insert>
+
+	<!-- 제품 온라인 매핑 삽입 -->
+	<insert id="insertProductOnlineMapping" parameterType="int">
+		INSERT
+		INTO product_online_mapping (
+		PI_ID,
+		IS_ONLINE
+		) VALUES (
+		#{piId},
+		TRUE
+		);
+	</insert>
+
+
+
+	<!-- Update Product -->
+	<update id="updateProduct"
+		parameterType="com.shop.fullstack.product.vo.ProductVO">
+		UPDATE product
+		SET
+		PI_CODE = #{piCode},
+		PI_NAME =
+		#{piName},
+		PI_PRICE = #{piPrice},
+		PI_COUNTRY_OF_ORIGIN =
+		#{piCountryOfOrigin},
+		PI_STORY = #{piStory},
+		PI_MAIN_CATEGORY_ID =
+		#{piMainCategoryId},
+		PI_SUB_CATEGORY_ID = #{piSubCategoryId},
+		PI_DETAIL_CATEGORY_ID = #{piDetailCategoryId},
+		PI_COLOR_TITLE =
+		#{piColorTitle},
+		PI_MATERIAL_TITLE = #{piMaterialTitle}
+		WHERE PI_ID =
+		#{piId}
+	</update>
+
+	<!-- Delete Product by ID -->
+	<delete id="deleteProduct">
+		DELETE FROM product WHERE PI_ID = #{piId}
+	</delete>
+
+	<select id="selectProductsWithFilters" parameterType="map"
+		resultType="com.shop.fullstack.product.vo.ProductVO">
+		SELECT
+		p.PI_ID AS piId,
+		p.PI_CODE AS piCode,
+		p.PI_NAME AS piName,
+		p.PI_PRICE AS piPrice,
+		p.PI_MAIN_CATEGORY_ID AS piMainCategoryId,
+		p.PI_SUB_CATEGORY_ID AS piSubCategoryId,
+		p.PI_DETAIL_CATEGORY_ID AS
+		piDetailCategoryId,
+		(SELECT PIMG_URL
+		FROM product_img
+		WHERE PI_ID =
+		p.PI_ID
+		AND PIMG_NAME LIKE 'main_%'
+		ORDER BY PIMG_ID ASC
+		LIMIT 1) AS
+		pimgUrl
+		FROM product p
+		WHERE 1=1
+		<if test="piName != null and piName != ''">
+			AND p.PI_NAME LIKE CONCAT('%', #{piName}, '%')
+		</if>
+		<if test="piCode != null and piCode != ''">
+			AND p.PI_CODE LIKE CONCAT('%', #{piCode}, '%')
+		</if>
+		<if test="piMainCategoryId != null and piMainCategoryId != 0">
+			AND p.PI_MAIN_CATEGORY_ID = #{piMainCategoryId}
+		</if>
+		<if test="piSubCategoryId != null and piSubCategoryId != 0">
+			AND p.PI_SUB_CATEGORY_ID = #{piSubCategoryId}
+		</if>
+		<if test="piDetailCategoryId != null and piDetailCategoryId != 0">
+			AND p.PI_DETAIL_CATEGORY_ID = #{piDetailCategoryId}
+		</if>
+		ORDER BY p.PI_ID ASC
+		<if test="itemsPerPage != null and offset != null">
+			LIMIT #{itemsPerPage} OFFSET #{offset}
+		</if>
+	</select>
+
+	<select id="countProductsByFilters" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM product p
+		WHERE 1=1
+		<if test="piName != null and piName != ''">
+			AND p.PI_NAME LIKE CONCAT('%', #{piName}, '%')
+		</if>
+		<if test="piCode != null and piCode != ''">
+			AND p.PI_CODE LIKE CONCAT('%', #{piCode}, '%')
+		</if>
+		<if test="piMainCategoryId != null and piMainCategoryId != 0">
+			AND p.PI_MAIN_CATEGORY_ID = #{piMainCategoryId}
+		</if>
+		<if test="piSubCategoryId != null and piSubCategoryId != 0">
+			AND p.PI_SUB_CATEGORY_ID = #{piSubCategoryId}
+		</if>
+		<if test="piDetailCategoryId != null and piDetailCategoryId != 0">
+			AND p.PI_DETAIL_CATEGORY_ID = #{piDetailCategoryId}
+		</if>
+	</select>
+
+
+
+</mapper>

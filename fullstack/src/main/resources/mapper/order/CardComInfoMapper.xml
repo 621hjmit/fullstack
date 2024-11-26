@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.CardComInfoMapper">
+
+	<select id="selectCardcoms" resultType="com.shop.fullstack.order.vo.CardcomInfoVO">
+		SELECT * FROM CARD_COM_INFO
+	</select>
+
+	<select id="selectCardcom" resultType="com.shop.fullstack.order.vo.CardcomInfoVO">
+		SELECT * FROM CARD_COM_INFO WHERE CCI_NUM = #{cciNum}
+	</select>
+	
+	<insert id="insertCardcom">
+		INSERT INTO CARD_COM_INFO 
+			(CCI_NAME, CCI_ID, CCI_CONTACT, CCI_PHONE, 
+			CCI_EMAIL, CCI_STARTDATE, CCI_ENDDATE)
+		VALUES
+			(#{cciName}, #{cciId}, #{cciContact}, #{cciPhone}, 
+			#{cciEmail}, #{cciStartDate}, #{cciEndDate})
+	</insert>
+	
+	<insert id="insertCardComs">
+		<foreach collection = "cardComs" item="cardCom" separator=";" open="" close="">
+			INSERT INTO CARD_COM_INFO 
+				(CCI_NAME, CCI_ID, CCI_CONTACT, CCI_PHONE, 
+				CCI_EMAIL, CCI_STARTDATE, CCI_ENDDATE)
+			VALUES
+				(#{cardCom.cciName}, #{cardCom.cciId}, #{cardCom.cciContact}, #{cardCom.cciPhone}, 
+				#{cardCom.cciEmail}, #{cardCom.cciStartDate}, #{cardCom.cciEndDate})
+		</foreach>
+	</insert>
+	
+	<update id="updateCardcom"> 
+		UPDATE CARD_COM_INFO
+		SET CCI_NAME = #{cciName},
+			CCI_ID = #{cciId},
+			CCI_CONTACT = #{cciContact},
+			CCI_PHONE = #{cciPhone},
+			CCI_EMAIL = #{cciEmail},
+			CCI_STARTDATE = #{cciStartDate},
+			CCI_ENDDATE = #{cciEndDate}
+		WHERE CCI_NUM = #{cciNum}
+	</update>
+	
+	<update id="updateCardComs">
+		<foreach collection="cardComs" item="cardCom" separator=";" open="" close="">
+			UPDATE CARD_COM_INFO
+			SET CCI_NAME = #{cardCom.cciName},
+				CCI_ID = #{cardCom.cciId},
+				CCI_CONTACT = #{cardCom.cciContact},
+				CCI_PHONE = #{cardCom.cciPhone},
+				CCI_EMAIL = #{cardCom.cciEmail},
+				CCI_STARTDATE = #{cardCom.cciStartDate},
+				CCI_ENDDATE = #{cardCom.cciEndDate}
+			WHERE CCI_NUM = #{cardCom.cciNum}
+		</foreach>
+	</update>
+	
+	<delete id="deleteCardcom">
+		DELETE FROM CARD_COM_INFO WHERE CCI_NUM = #{cciNum}
+	</delete>
+	
+	<select id="selectRowCount" resultType="int">
+		SELECT ROW_COUNT()
+	</select>
+	
+</mapper>

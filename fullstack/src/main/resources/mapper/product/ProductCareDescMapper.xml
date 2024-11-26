@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.product.mapper.ProductCareDescMapper">
+
+    <select id="selectProductCareDescs" resultType="com.shop.fullstack.product.vo.ProductCareDescVO">
+        SELECT * FROM product_care_desc
+    </select>
+    
+    <select id="selectProductCareDesc" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductCareDescVO">
+        SELECT * FROM product_care_desc WHERE PCD_ID = #{pcdId}
+    </select>
+
+    <insert id="insertProductCareDesc" parameterType="com.shop.fullstack.product.vo.ProductCareDescVO">
+        INSERT INTO product_care_desc (PM_ID, PCD_DESC) VALUES (#{pmId}, #{pcdDesc})
+    </insert>
+
+    <update id="updateProductCareDesc" parameterType="com.shop.fullstack.product.vo.ProductCareDescVO">
+        UPDATE product_care_desc 
+        SET PM_ID = #{pmId}, PCD_DESC = #{pcdDesc} 
+        WHERE PCD_ID = #{pcdId}
+    </update>
+
+    <delete id="deleteProductCareDesc" parameterType="int">
+        DELETE FROM product_care_desc WHERE PCD_ID = #{pcdId}
+    </delete>
+
+</mapper>

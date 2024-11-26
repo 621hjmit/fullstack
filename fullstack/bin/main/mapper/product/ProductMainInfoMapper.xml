@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ProductMainInfoMapper">
+
+	<!-- Select all Product Main Infos -->
+	<select id="selectProductMainInfos"
+		resultType="com.shop.fullstack.product.vo.ProductMainInfoVO">
+		SELECT *
+		FROM product_main_info
+	</select>
+
+	<!-- Select Product Main Info by ID -->
+	<select id="selectProductMainInfoByProductId"
+		parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductMainInfoVO">
+		SELECT pmi.*
+		FROM product_main_info pmi
+		WHERE pmi.PI_ID =
+		#{piId}
+	</select>
+
+	<!-- Insert Product Main Info -->
+	<insert id="insertProductMainInfo">
+		INSERT INTO product_main_info (
+		PI_ID,
+		PMI_DESC
+		) VALUES
+		(
+		#{piId},
+		#{pmiDesc}
+		)
+	</insert>
+
+	<!-- Update Product Main Info -->
+	<update id="updateProductMainInfo"
+		parameterType="com.shop.fullstack.product.vo.ProductVO">
+		<!-- 기존 주요 정보 업데이트 -->
+		<foreach collection="mainInfoList" item="mainInfo"
+			separator=";">
+			UPDATE product_main_info
+			SET PMI_DESC = #{mainInfo.pmiDesc}
+			WHERE PMI_ID = #{mainInfo.pmiId} AND PI_ID = #{piId}
+		</foreach>
+
+		<!-- 새로운 주요 정보 삽입 -->
+		<foreach collection="mainInfoList" item="mainInfo"
+			separator=";">
+			INSERT INTO product_main_info (PI_ID, PMI_DESC)
+			VALUES (#{mainInfo.piId}, #{mainInfo.pmiDesc})
+		</foreach>
+	</update>
+
+	<!-- Delete Product Main Info by ID -->
+	<delete id="deleteProductMainInfoById">
+		DELETE FROM product_main_info WHERE PMI_ID = #{pmiId}
+	</delete>
+
+
+
+
+</mapper>

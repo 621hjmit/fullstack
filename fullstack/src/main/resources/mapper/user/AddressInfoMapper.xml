@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.user.mapper.AddressInfoMapper">
+  <select id="selectAddress" resultType="com.shop.fullstack.user.vo.AddressInfoVO">
+    SELECT * FROM address_info
+    WHERE UI_NUM = #{uiNum};
+  </select>
+  <select id="selectOne" resultType="com.shop.fullstack.user.vo.AddressInfoVO">
+    SELECT * FROM address_info
+    WHERE AI_NUM = #{aiNum};
+  </select>
+  <select id="selectUserAddressUiNum" resultType="com.shop.fullstack.user.vo.AddressInfoVO">
+    SELECT * FROM address_info
+    WHERE UI_NUM = #{uiNum} AND AI_DEFAULT = '1';
+  </select>
+  <delete id="deleteAddress">
+    DELETE FROM address_info WHERE AI_NUM = #{aiNum};
+  </delete>
+  <insert id="insertAddress">
+    INSERT INTO address_info (
+	    AI_PLACE_NAME, AI_RECIPENT_NAME, AI_COUNTRY_CODE, AI_PHONE, 
+	    AI_ZIPCODE, AI_ADDRESS1, AI_ADDRESS2, AI_DEFAULT, 
+      UI_NUM
+    ) VALUES (
+      #{aiPlaceName},#{aiRecipentName},#{aiCountryCode},#{aiPhone},
+      #{aiZipcode},#{aiAddress1},#{aiAddress2},#{aiDefault},
+      #{uiNum}
+    );
+  </insert>
+  
+  <update id="updateAddress">
+    UPDATE address_info
+    <set>
+      <trim suffixOverrides=",">
+	      <if test="uiFullname != null and uiFullname !=''">
+	        AI_RECIPENT_NAME = #{uiFullname}, 
+	        AI_PLACE_NAME = #{uiFullname}, 
+	      </if>
+	      
+	      <if test="aiCountryCode != null and aiCountryCode !=''">
+		      AI_COUNTRY_CODE=#{aiCountryCode}, 
+	      </if>
+	      
+	      <if test="aiPhone != null and aiPhone !=''">
+		      AI_PHONE=#{aiPhone},
+	      </if>
+	      
+	      <if test="aiZipcode != null and aiZipcode !=''">
+		      AI_ZIPCODE=#{aiZipcode}, 
+	      </if> 
+	      
+	      <if test="aiAddress1 != null and aiAddress1 !=''">
+		      AI_ADDRESS1=#{aiAddress1},
+	      </if>
+	      
+	      <if test="aiAddress2 != null and aiAddress2 !=''">
+		      AI_ADDRESS2=#{aiAddress2}, 
+	      </if> 
+      </trim>
+    </set>
+    WHERE  AI_NUM=#{aiNum};
+  </update>
+  
+  <update id="updateAddressDefault">
+    UPDATE address_info 
+    <set>
+      <trim suffixOverrides=",">
+        <if test="uiFullname != null and uiFullname !=''">
+          AI_RECIPENT_NAME = #{uiFullname}, 
+          AI_PLACE_NAME = #{uiFullname}, 
+        </if>
+        
+        <if test="aiCountryCode != null and aiCountryCode !=''">
+          AI_COUNTRY_CODE=#{aiCountryCode}, 
+        </if>
+        
+        <if test="aiPhone != null and aiPhone !=''">
+          AI_PHONE=#{aiPhone},
+        </if>
+        
+        <if test="aiZipcode != null and aiZipcode !=''">
+          AI_ZIPCODE=#{aiZipcode}, 
+        </if> 
+        
+        <if test="aiAddress1 != null and aiAddress1 !=''">
+          AI_ADDRESS1=#{aiAddress1},
+        </if>
+        
+        <if test="aiAddress2 != null and aiAddress2 !=''">
+          AI_ADDRESS2=#{aiAddress2}, 
+        </if> 
+      </trim>
+    </set>
+    WHERE  UI_NUM = #{uiNum} AND AI_DEFAULT = '1';
+  </update>
+  <update id="updateDefault">
+    UPDATE address_info SET 
+      AI_DEFAULT= '0'
+    WHERE  UI_NUM=#{uiNum} AND AI_DEFAULT ='1';
+  </update>
+</mapper>

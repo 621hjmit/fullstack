@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.user.mapper.NewsletterMapper">
+  <insert id="insertSubscriber" >
+    INSERT INTO user_newsletter (
+      UN_EMAIL, UN_STATUS, UN_UNSUBSCRIBE_DATE, UN_LAST_NAME, UN_FIRST_NAME, UI_NUM
+    ) VALUES (
+      #{unEmail},#{unStatus},#{unUnsubscribeDate},#{unLastName},#{unFirstName},#{uiNum}
+    );
+  </insert>
+  <update id="updateSubscription">
+    UPDATE user_newsletter SET
+    <choose>
+		    <when test='uiNews == "1"'>
+		        UN_STATUS = "active"
+		    </when>
+		    <otherwise>
+		      UN_STATUS = "unsubscribed",
+          UN_UNSUBSCRIBE_DATE = DATE_FORMAT(NOW(), '%Y%m%d')
+		    </otherwise>
+		</choose>
+    WHERE UI_NUM = #{uiNum};
+  </update>
+  <select id="checkEmail">
+    SELECT COUNT(*) FROM user_newsletter
+    WHERE UN_EMAIL = #{unEmail};
+  </select>
+  <insert id="subscribeAsGuest">
+    INSERT INTO user_newsletter (
+      UN_EMAIL, UN_STATUS
+    ) VALUES (
+      #{unEmail},'active'
+    );
+  </insert>
+  <delete id="unsubscribeAsGuest">
+    DELETE FROM user_newsletter WHERE UN_EMAIL = #{unEmail};
+  </delete>
+</mapper>

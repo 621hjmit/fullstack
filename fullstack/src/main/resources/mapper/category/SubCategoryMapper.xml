@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.category.mapper.SubCategoryMapper">
+
+	<select id="selectAllSubCategories"
+		resultType="com.shop.fullstack.category.vo.CategoryVO">
+		SELECT SUB_CATEGORY_ID, FOREIGN_MAIN_CATEGORY_ID,
+		SUB_CATEGORY_NAME FROM
+		SubCategory
+	</select>
+
+	<select id="selectSubCategory" 
+		resultType="com.shop.fullstack.category.vo.CategoryVO">
+		SELECT SUB_CATEGORY_ID, FOREIGN_MAIN_CATEGORY_ID,
+		SUB_CATEGORY_NAME FROM
+		SubCategory WHERE SUB_CATEGORY_ID =
+		#{subCategoryId}
+	</select>
+
+<select id="findByMainCategoryId" parameterType="int" resultType="com.shop.fullstack.category.vo.CategoryVO">
+    SELECT 
+        mc.MAIN_CATEGORY_ID AS mainCategoryId,  -- 메인 카테고리 ID 추가
+        sc.SUB_CATEGORY_ID AS subCategoryId,
+        sc.FOREIGN_MAIN_CATEGORY_ID AS foreignMainCategoryId,
+        sc.SUB_CATEGORY_NAME AS subCategoryName,
+        mc.MAIN_CATEGORY_NAME AS mainCategoryName -- 메인 카테고리 이름 추가
+    FROM 
+        SubCategory sc
+    JOIN 
+        MainCategory mc ON sc.FOREIGN_MAIN_CATEGORY_ID = mc.MAIN_CATEGORY_ID
+    WHERE 
+        sc.FOREIGN_MAIN_CATEGORY_ID = #{mainCategoryId}
+</select>
+
+	<insert id="insertSubCategory">
+		INSERT INTO SubCategory (SUB_CATEGORY_NAME, FOREIGN_MAIN_CATEGORY_ID)
+		VALUES (#{subCategoryName}, #{foreignMainCategoryId})
+	</insert>
+
+	<update id="updateSubCategory">
+		UPDATE SubCategory
+		SET SUB_CATEGORY_NAME =
+		#{subCategoryName}
+		WHERE SUB_CATEGORY_ID = #{subCategoryId}
+	</update>
+
+	<delete id="deleteSubCategory">
+		DELETE FROM SubCategory WHERE SUB_CATEGORY_ID =
+		#{subCategoryId}
+	</delete>
+
+</mapper>

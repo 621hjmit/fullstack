@@ -1,0 +1,20 @@
+@charset "UTF-8";
+/* small devices (landscape mobiles, 767px and down) */
+@media only screen and (max-width: 767px) {
+	.margin-top-35, .block_full_hero_media{
+		margin:0;	
+	}
+	.block-text h2{
+		margin: 10px 0;
+	}
+	.block-text{
+		padding:40px 20px 20px;
+	}
+	.editorial-block-intro{
+    font-size: 14px;
+    line-height: 1.75rem;
+	}
+	.m-hidden{
+		display:none;
+	}
+}

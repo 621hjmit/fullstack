@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.product.mapper.ProductDeliveryMapper">
+
+
+    <select id="selectProductDeliveries" resultType="com.shop.fullstack.product.vo.ProductDeliveryVO">
+        SELECT * FROM product_delivery
+    </select>
+    
+    <select id="selectProductDelivery" resultType="com.shop.fullstack.product.vo.ProductDeliveryVO">
+        SELECT * FROM product_delivery WHERE PD_ID = #{pdId}
+    </select>
+
+
+    <insert id="insertProductDelivery">
+        INSERT INTO product_delivery (PD_DESC) VALUES (#{pdDesc})
+    </insert>
+
+
+    <update id="updateProductDelivery" parameterType="com.shop.fullstack.product.vo.ProductDeliveryVO">
+    UPDATE product_delivery
+    SET PD_DESC = #{pdDesc}
+    WHERE PD_ID = #{pdId}
+</update>
+
+
+    <delete id="deleteProductDelivery">
+        DELETE FROM product_delivery WHERE PD_ID = #{pdId}
+    </delete>
+
+</mapper>

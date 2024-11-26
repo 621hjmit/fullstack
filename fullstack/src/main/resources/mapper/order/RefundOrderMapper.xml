@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.ReturnOrderMapper">
+
+	<select id="selectReturnOrders" resultType="com.shop.fullstack.order.vo.ReturnOrderVO">
+		SELECT * FROM RETURN_ORDER
+	</select>
+
+	<select id="selectReturnOrder" resultType="com.shop.fullstack.order.vo.ReturnOrderVO">
+		SELECT * FROM RETURN_ORDER WHERE RO_NUM = #{roNum}
+	</select>
+	
+	<insert id="insertReturnOrder">
+		INSERT INTO RETURN_ORDER (OR_NUM, RO_STATUS)
+		VALUES (#{orNum}, #{roStatus})
+	</insert>
+	
+	<update id="updateReturnOrder">
+		UPDATE RETURN_ORDER
+		SET OR_NUM = #{orNum},
+			RO_STATUS = #{roStatus},
+			CLODAT = #{clodat}
+		WHERE RO_NUM = #{roNum}
+	</update>
+	
+	<delete id="deleteReturnOrder">
+		DELETE FROM RETURN_ORDER WHERE RO_NUM = #{roNum}
+	</delete>
+	
+</mapper>

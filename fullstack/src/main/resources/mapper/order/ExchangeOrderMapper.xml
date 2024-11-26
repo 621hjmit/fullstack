@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.ExchangeOrderMapper">
+
+	<select id="selectExchangeOrders" resultType="com.shop.fullstack.order.vo.ExchangeOrderVO">
+		SELECT * FROM EXCHANGE_ORDER
+	</select>
+
+	<select id="selectExchangeOrder" resultType="com.shop.fullstack.order.vo.ExchangeOrderVO">
+		SELECT * FROM EXCHANGE_ORDER WHERE EO_NUM = #{eoNum}
+	</select>
+	
+	<insert id="insertExchangeOrder">
+		INSERT INTO EXCHANGE_ORDER (OR_NUM, EO_STATUS)
+		VALUES (#{orNum}, #{eoStatus})
+	</insert>
+	
+	<update id="updateExchangeOrder">
+		UPDATE EXCHANGE_ORDER
+		SET OR_NUM = #{orNum},
+			EO_STATUS = #{eoStatus},
+			CLODAT = #{clodat}
+		WHERE EO_NUM = #{eoNum}
+	</update>
+	
+	<delete id="deleteExchangeOrder">
+		DELETE FROM EXCHANGE_ORDER WHERE EO_NUM = #{eoNum}
+	</delete>
+	
+</mapper>

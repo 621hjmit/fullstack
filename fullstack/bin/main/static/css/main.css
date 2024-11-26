@@ -1,0 +1,44 @@
+#main {
+    width: 100%;
+    /* height: 522px; */
+    margin-top:35px;
+}
+.main-container{
+    width:100%;
+}
+
+.main-container img{
+    width:100%;
+}
+@media (min-width: 768px) {
+
+    .main-container,
+    .sb-show-main .main-container,
+    .modal-service .main-container {
+        max-width: 1290px;
+        margin: auto;
+        padding: 0 1.1538461538rem;
+    }
+}
+
+.main-container,
+.sb-show-main .main-container,
+.modal-service .main-container {
+    font-weight: 400;
+}
+
+
+.main_product_price{
+    font-size:14px;
+    color:var(--primary-color);
+}
+.main_product_price::before{
+    content:"₩";
+
+}
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 767px) {
+
+}

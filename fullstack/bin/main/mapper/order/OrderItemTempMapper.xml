@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.shop.fullstack.order.mapper.OrderItemTempMapper">
+
+	<select id="selectOrderItemTempTotal" resultType="int">
+		SELECT COUNT(*)
+		FROM ORDER_ITEM_TEMP
+		<where>
+			<if test="oitNum != null and oitNum != ''">
+				AND OIT_NUM = #{oitNum}
+			</if>
+			<if test="ciNum != null and ciNum != ''">
+				AND CI_NUM = #{ciNum}
+			</if>
+			<if test="piId != null and piId != ''">
+				AND PI_ID = #{piId}
+			</if>
+			<if test="piName != null and piName != ''">
+				AND PI_NAME = #{piName}
+			</if>
+			<if test="piCode != null and piCode != ''">
+				AND PI_CODE = #{piCode}
+			</if>
+			<if test="piColorTitle != null and piColorTitle != ''">
+				AND PI_COLOR_TITLE = #{piColorTitle}
+			</if>
+			<if test="psName != null and psName != ''">
+				AND PS_NAME = #{psName}
+			</if>
+			<if test="piPrice != null and piPrice != ''">
+				AND PI_PRICE = #{piPrice}
+			</if>
+			<if test="oitCount != null and oitCount != ''">
+				AND OIT_COUNT = #{oitCount}
+			</if>
+			<if test="uiNum != null and uiNum != ''">
+				AND UI_NUM = #{uiNum}
+			</if>
+			<if test="uiName != null and uiName != ''">
+				AND UI_NAME = #{uiName}
+			</if>
+			<if test="oitStatus != null and oitStatus != ''">
+				AND OIT_STATUS = #{oitStatus}
+			</if>
+			<if
+				test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND STR_TO_DATE(CREDAT, '%Y%m%d') BETWEEN STR_TO_DATE(#{startDate},
+				'%Y%m%d') AND STR_TO_DATE(#{endDate}, '%Y%m%d')
+			</if>
+			<if
+				test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND STR_TO_DATE(OIT_CLOSED_DATE, '%Y%m%d') BETWEEN
+				STR_TO_DATE(#{startDate}, '%Y%m%d') AND STR_TO_DATE(#{endDate},
+				'%Y%m%d')
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectOrderItemTemps"
+		resultType="com.shop.fullstack.order.vo.OrderItemTempVO">
+		SELECT oit.*, pi.PIMG_URL
+		FROM ORDER_ITEM_TEMP oit
+		LEFT JOIN product_img pi ON oit.PI_ID = pi.PI_ID
+		<where>
+			<if test="oitNum != null and oitNum != ''">
+				AND oit.OIT_NUM = #{oitNum}
+			</if>
+			<if test="ciNum != null and ciNum != ''">
+				AND oit.CI_NUM = #{ciNum}
+			</if>
+			<if test="piId != null and piId != ''">
+				AND oit.PI_ID = #{piId}
+			</if>
+			<if test="piName != null and piName != ''">
+				AND oit.PI_NAME = #{piName}
+			</if>
+			<if test="piCode != null and piCode != ''">
+				AND oit.PI_CODE = #{piCode}
+			</if>
+			<if test="piColorTitle != null and piColorTitle != ''">
+				AND oit.PI_COLOR_TITLE = #{piColorTitle}
+			</if>
+			<if test="psName != null and psName != ''">
+				AND oit.PS_NAME = #{psName}
+			</if>
+			<if test="piPrice != null and piPrice != ''">
+				AND oit.PI_PRICE = #{piPrice}
+			</if>
+			<if test="oitCount != null and oitCount != ''">
+				AND oit.OIT_COUNT = #{oitCount}
+			</if>
+			<if test="uiNum != null and uiNum != ''">
+				AND oit.UI_NUM = #{uiNum}
+			</if>
+			<if test="uiName != null and uiName != ''">
+				AND oit.UI_NAME = #{uiName}
+			</if>
+			<if test="oitStatus != null and oitStatus != ''">
+				AND oit.OIT_STATUS = #{oitStatus}
+			</if>
+			<if
+				test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND STR_TO_DATE(oit.CREDAT, '%Y%m%d') BETWEEN STR_TO_DATE(#{startDate},
+				'%Y%m%d') AND STR_TO_DATE(#{endDate}, '%Y%m%d')
+			</if>
+			<if
+				test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND STR_TO_DATE(oit.OIT_CLOSED_DATE, '%Y%m%d') BETWEEN
+				STR_TO_DATE(#{startDate}, '%Y%m%d') AND STR_TO_DATE(#{endDate},
+				'%Y%m%d')
+			</if>
+		</where>
+		AND pi.PIMG_NAME LIKE 'main_%'  <!-- 메인 이미지만 가져오기 위해 추가 -->
+	</select>
+
+	<select id="selectOrderItemTemp"
+		resultType="com.shop.fullstack.order.vo.OrderItemTempVO">
+		SELECT * FROM ORDER_ITEM_TEMP WHERE OIT_NUM=#{oitNum}
+	</select>
+
+	<insert id="insertOrderItemTemp">
+		INSERT INTO ORDER_ITEM_TEMP (CI_NUM, PI_ID, PI_NAME,
+		PI_CODE,
+		PI_COLOR_TITLE, PS_NAME, PI_PRICE, OIT_COUNT,
+		UI_NUM, UI_NAME, OIT_STATUS, OIT_CLOSED_DATE)
+		VALUES (#{ciNum},#{piId},#{piName},#{piCode},
+		#{piColorTitle},#{psName},#{piPrice},#{oitCount},
+		#{uiNum},#{uiName},#{oitStatus},#{oitClosedDate})
+	</insert>
+
+	<update id="updateOrderItemTemp">
+		UPDATE ORDER_ITEM_TEMP
+		SET CI_NUM = #{ciNum},
+		PI_ID = #{piId},
+		PI_NAME = #{piName},
+		PI_CODE = #{piCode},
+		PI_COLOR_TITLE = #{piColorTitle},
+		PS_NAME = #{psName},
+		PI_PRICE = #{piPrice},
+		OIT_COUNT = #{oitCount},
+		UI_NUM = #{uiNum},
+		UI_NAME = #{uiName},
+		OIT_STATUS = #{oitStatus},
+		OIT_CLOSED_DATE = #{oitClosedDate}
+		WHERE OIT_NUM =#{oitNum}
+	</update>
+
+	<update id="updateCountOrderItem">
+		UPDATE ORDER_ITEM_TEMP
+		SET OIT_COUNT = #{oitCount}
+		WHERE OIT_NUM =#{oitNum}
+	</update>
+
+	<update id="updateStatusOrderItem">
+		UPDATE ORDER_ITEM_TEMP
+		SET OIT_STATUS = #{oitStatus},
+		OIT_CLOSED_DATE = #{oitClosedDate}
+		WHERE OIT_NUM =#{oitNum}
+	</update>
+
+	<delete id="deleteOrderItemTemp">
+		DELETE FROM ORDER_ITEM_TEMP WHERE OIT_NUM =#{oitNum}
+	</delete>
+</mapper>

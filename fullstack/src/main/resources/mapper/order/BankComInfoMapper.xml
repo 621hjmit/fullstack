@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.BankComInfoMapper">
+
+	<select id="selectBankcoms" resultType="com.shop.fullstack.order.vo.BankcomInfoVO">
+		SELECT * FROM BANK_COM_INFO
+	</select>
+
+	<select id="selectBankcom" resultType="com.shop.fullstack.order.vo.BankcomInfoVO">
+		SELECT * FROM BANK_COM_INFO WHERE BCI_NUM = #{bciNum}
+	</select>
+	
+	<insert id="insertBankcom">
+		INSERT INTO BANK_COM_INFO 
+			(BCI_NAME, BCI_ID, BCI_CONTACT, BCI_PHONE, 
+			BCI_EMAIL, BCI_STARTDATE, BCI_ENDDATE)
+		VALUES
+			(#{bciName}, #{bciId}, #{bciContact}, #{bciPhone}, 
+			#{bciEmail}, #{bciStartDate}, #{bciEndDate})
+	</insert>
+	
+	<insert id="insertBankComs">
+		<foreach collection = "bankComs" item="bankCom" separator=";" open="" close="">
+			INSERT INTO BANK_COM_INFO 
+				(BCI_NAME, BCI_ID, BCI_CONTACT, BCI_PHONE, 
+				BCI_EMAIL, BCI_STARTDATE, BCI_ENDDATE)
+			VALUES
+				(#{bankCom.bciName}, #{bankCom.bciId}, #{bankCom.bciContact}, #{bankCom.bciPhone}, 
+				#{bankCom.bciEmail}, #{bankCom.bciStartDate}, #{bankCom.bciEndDate})
+		</foreach>
+	</insert>
+	
+	<update id="updateBankcom">
+		UPDATE BANK_COM_INFO
+		SET BCI_NAME = #{bciName},
+			BCI_ID = #{bciId},
+			BCI_CONTACT = #{bciContact},
+			BCI_PHONE = #{bciPhone},
+			BCI_EMAIL = #{bciEmail},
+			BCI_STARTDATE = #{bciStartDate},
+			BCI_ENDDATE = #{bciEndDate}
+		WHERE BCI_NUM = #{bciNum}
+	</update>
+	
+	<update id="updateBankComs">
+		<foreach collection="bankComs" item="bankCom" separator=";" open="" close="">
+			UPDATE BANK_COM_INFO
+			SET BCI_NAME = #{bankCom.bciName},
+				BCI_ID = #{bankCom.bciId},
+				BCI_CONTACT = #{bankCom.bciContact},
+				BCI_PHONE = #{bankCom.bciPhone},
+				BCI_EMAIL = #{bankCom.bciEmail},
+				BCI_STARTDATE = #{bankCom.bciStartDate},
+				BCI_ENDDATE = #{bankCom.bciEndDate}
+			WHERE BCI_NUM = #{bankCom.bciNum}
+		</foreach>
+	</update>
+	
+	<delete id="deleteBankcom">
+		DELETE FROM BANK_COM_INFO WHERE BCI_NUM = #{bciNum}
+	</delete>
+	
+	<select id="selectRowCount" resultType="int">
+		SELECT ROW_COUNT()
+	</select>
+	
+</mapper>

@@ -1,0 +1,11 @@
+@charset "UTF-8";
+#emailArea .warning-required{
+    position: absolute !important;
+    top: 109px !important;
+}
+#userEmailLabel{
+	top: 54px !important
+}
+.login-page-content #emailArea .button-base {
+    margin-top: 20px;
+}

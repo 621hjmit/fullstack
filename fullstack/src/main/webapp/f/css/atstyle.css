@@ -1,0 +1,18 @@
+div{
+    width:100px;
+    height: 100px;
+}
+.redbox{
+    background-color: red;
+    top:100px;
+    left:100px;
+    position: static;
+}
+.pinkbox{
+    background-color: pink;
+    top:0;
+    left:0;
+    width:100%;
+    height:100px;
+    position: absolute;
+}

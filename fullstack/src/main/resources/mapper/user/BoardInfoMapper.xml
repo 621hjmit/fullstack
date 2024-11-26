@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.user.mapper.BoardInfoMapper">
+  <insert id="insertContact" parameterType="com.shop.fullstack.user.vo.BoardInfoVO">
+    INSERT INTO user_board (
+      UB_FIRST_NAME, UB_LAST_NAME, UB_EMAIL, UB_COUNTRY_CODE, 
+      UB_PHONE, UC_NUM, UB_TITLE, UB_MESSAGE, UI_NUM, UB_REPLY
+    ) VALUES (
+      #{ubFirstName}, #{ubLastName}, #{ubEmail}, #{ubCountryCode},
+      #{ubPhone}, #{ucNum}, #{ubTitle}, #{ubMessage}, #{uiNum}, '0'
+    );
+  </insert>
+  <select id="selectContacts" parameterType="int">
+	  SELECT 
+		  U.UB_NUM,
+		  C.UC_NUM,
+		  C.UC_TITLE,
+		  U.UB_TITLE,
+		  U.UB_CREDAT,
+		  CASE 
+		    WHEN U.UB_REPLY = 1 THEN '답변'
+		    WHEN U.UB_REPLY = 0 THEN '미답변'
+		  END AS UB_REPLY
+		FROM user_board U
+		LEFT JOIN user_contact C ON U.UC_NUM = C.UC_NUM
+		WHERE UI_NUM = #{uiNum};
+  </select>
+  <delete id="deleteContact" parameterType="int">
+    DELETE FROM user_board WHERE UB_NUM = #{ubNum};
+  </delete>
+  <select id="getOneContact">
+    SELECT * FROM user_board U
+    LEFT JOIN user_contact C ON U.UC_NUM = C.UC_NUM
+    WHERE UB_NUM = #{ubNum};
+  </select>
+  <select id="getContactSubjectList">
+    SELECT * FROM user_contact;
+  </select>
+  <update id="updateContact">
+    UPDATE hermes.user_board SET 
+      UB_FIRST_NAME    = #{ubFirstName}, 
+	    UB_LAST_NAME     = #{ubLastName}, 
+	    UB_EMAIL         = #{ubEmail}, 
+	    UB_COUNTRY_CODE  = #{ubCountryCode}, 
+	    UB_PHONE         = #{ubPhone}, 
+	    UC_NUM           = #{ubNum},
+      UB_TITLE         = #{ubTitle}, 
+	    UB_MESSAGE       = #{ubMessage}, 
+	    UB_CREDAT        = #{ubCredat} 
+    WHERE  
+      UB_NUM = #{ubNum};
+  </update>
+  
+</mapper>

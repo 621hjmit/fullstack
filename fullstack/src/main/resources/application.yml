@@ -1,0 +1,41 @@
+server:
+  port: ${SERVER_PORT}
+  session:
+    cookie:
+      name: ${SESSION_COOKIE_NAME}
+spring:
+  servlet:
+    multipart:
+      max-file-size: ${MAX_FILE_SIZE} # 개별 파일의 최대 크기
+      max-request-size: ${MAX_REQUEST_SIZE}  # 요청의 최대 크기
+  mvc:
+    view:
+      prefix: ${PREFIX}
+      suffix: ${SUFFIX}
+    static-path-pattern: ${STATIC_PATH_PATTERN}
+  datasource:
+    driver-class-name: ${DRIVER_CLASS_NAME}
+    url: ${DB_URL}
+    username: ${DB_USER_NAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      connection-init-sql: ${CONNECTION_INIT_SQL}
+      minimum-idle: ${MINIMUM_IDLE}
+      maximum-pool-size: ${MAXIMUM_POOL_SIZE}
+
+mybatis:
+  mapper-locations: mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  config: classpath:log4j.xml
+
+pay:
+  imp-key: ${IMP_KEY}
+  imp-secret: ${IMP_SECRET}
+
+file:
+  upload:
+    path: ${FILE_UPLOAD_PATH}
+  path: ${FILE_PATH}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.admin.user.mapper.AdminNewsletterMapper">
+  <select id="getAllSubscribers" resultType="com.shop.fullstack.user.vo.NewsletterInfoVO">
+    SELECT 
+      N.UN_NUM, 
+      N.UN_LAST_NAME, 
+      N.UN_FIRST_NAME, 
+      N.UN_EMAIL, 
+      N.UN_SUBSCRIPTION_DATE, 
+      N.UN_STATUS, 
+      N.UN_UNSUBSCRIBE_DATE, 
+      N.UI_NUM,
+      U.UI_PHONE
+    FROM 
+      user_newsletter N
+    LEFT JOIN user_info U 
+    ON N.UI_NUM = U.UI_NUM 
+    <where>
+      <!-- 구독 상태 where절 start -->
+      <if test="unLastName != null and unLastName != ''">
+          AND N.UN_LAST_NAME LIKE CONCAT('%', #{unLastName}, '%')
+      </if>
+      <if test="unFirstName != null and unFirstName != ''">
+          AND N.UN_FIRST_NAME LIKE CONCAT('%', #{unFirstName}, '%')
+      </if>
+      <if test="unEmail != null and unEmail != ''">
+          AND N.UN_EMAIL LIKE CONCAT('%', #{unEmail}, '%')
+      </if>
+      <if test="unStatus != null and unStatus != ''">
+           AND N.UN_STATUS = #{unStatus}
+      </if>
+      <if test="uiPhone != null and uiPhone != ''">
+           AND U.UI_PHONE = #{uiPhone}
+      </if>
+      <!-- 구독 상태 where절  end --> 
+      <!-- 조건에 따른 날짜 필터 start -->
+      <if test="unStartDate != null and unEndDate != null and unStartDate != '' and unEndDate != ''">
+        <if test="unStatus == 'active'">
+          AND N.UN_SUBSCRIPTION_DATE BETWEEN #{unStartDate} AND #{unEndDate}
+        </if>
+        <if test="unStatus == 'unsubscribed'">
+          AND N.UN_UNSUBSCRIBE_DATE BETWEEN #{unStartDate} AND #{unEndDate}
+        </if>
+        <if test="unStatus == 'bounced'">
+          AND N.UN_SUBSCRIPTION_DATE BETWEEN #{unStartDate} AND #{unEndDate}
+        </if>
+        <if test="unStatus == null || unStatus == ''">
+          AND N.UN_SUBSCRIPTION_DATE BETWEEN #{unStartDate} AND #{unEndDate}
+        </if>
+      </if>
+      <!-- 조건에 따른 날짜 필터 end -->
+    </where>
+    ORDER BY N.UN_SUBSCRIPTION_DATE DESC
+    limit #{start},#{count}
+  </select>
+  
+  <select id="getAllSubscribersTotal">
+    SELECT COUNT(1) 
+    FROM user_newsletter   N
+    LEFT JOIN user_info U 
+    ON N.UI_NUM = U.UI_NUM 
+    <where>
+      <!-- 구독 상태 where절 start -->
+      <if test="unLastName != null and unLastName != ''">
+          AND N.UN_LAST_NAME LIKE CONCAT('%', #{unLastName}, '%')
+      </if>
+      <if test="unFirstName != null and unFirstName != ''">
+          AND N.UN_FIRST_NAME LIKE CONCAT('%', #{unFirstName}, '%')
+      </if>
+      <if test="unEmail != null and unEmail != ''">
+          AND N.UN_EMAIL LIKE CONCAT('%', #{unEmail}, '%')
+      </if>
+      <if test="unStatus != null and unStatus != ''">
+           AND N.UN_STATUS = #{unStatus}
+      </if>
+      <if test="uiPhone != null and uiPhone != ''">
+           AND U.UI_PHONE = #{uiPhone}
+      </if>
+      <!-- 구독 상태 where절  end --> 
+      <!-- 조건에 따른 날짜 필터 start -->
+      <if test="unStartDate != null and unEndDate != null and unStartDate != '' and unEndDate != ''">
+        <if test="unStatus == 'active'">
+          AND N.UN_SUBSCRIPTION_DATE BETWEEN #{unStartDate} AND #{unEndDate}
+        </if>
+        <if test="unStatus == 'unsubscribed'">
+          AND N.UN_UNSUBSCRIBE_DATE BETWEEN #{unStartDate} AND #{unEndDate}
+        </if>
+        <if test="unStatus == 'bounced'">
+          AND N.UN_SUBSCRIPTION_DATE BETWEEN #{unStartDate} AND #{unEndDate}
+        </if>
+        <if test="unStatus == null || unStatus == ''">
+          AND N.UN_SUBSCRIPTION_DATE BETWEEN #{unStartDate} AND #{unEndDate}
+        </if>
+      </if>
+      <!-- 조건에 따른 날짜 필터 end -->
+    </where>
+  </select>
+
+  <update id="addSubscriber" parameterType="com.shop.fullstack.user.vo.NewsletterInfoVO">
+    UPDATE user_newsletter
+    SET 
+        UN_STATUS = "active"
+    WHERE UN_NUM = #{unNum}
+  </update>
+
+  <update id="deleteSubscriber" parameterType="int">
+    UPDATE user_newsletter
+    SET 
+        UN_STATUS = "unsubscribed",
+        UN_UNSUBSCRIBE_DATE = DATE_FORMAT(CURRENT_DATE, '%Y%m%d')
+    WHERE UN_NUM = #{unNum}
+  </update>
+</mapper>

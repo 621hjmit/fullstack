@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ProductStockInfoMapper">
+
+	<insert id="insertProductStockInfo"
+		parameterType="com.shop.fullstack.product.vo.ProductStockInfoVO">
+		INSERT INTO product_stock_info (PI_ID)
+		VALUES (#{piId})
+	</insert>
+
+	<update id="updateProductStockQuantity"
+		parameterType="com.shop.fullstack.product.vo.ProductStockInfoVO">
+		UPDATE product_stock_info
+		SET QUANTITY = #{quantity}, LAST_UPDATED = CURRENT_TIMESTAMP
+		WHERE PI_ID = #{piId}
+	</update>
+
+	<select id="selectProductStockInfoByProductId"
+		parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductStockInfoVO">
+		SELECT * FROM product_stock_info WHERE PI_ID = #{piId}
+	</select>
+
+	<select id="selectAllProductStockInfos"
+		resultType="com.shop.fullstack.product.vo.ProductStockInfoVO">
+		SELECT * FROM product_stock_info
+	</select>
+
+</mapper>

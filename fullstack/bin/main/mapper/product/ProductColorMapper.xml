@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.product.mapper.ProductColorMapper">
+
+    <select id="selectProductColors" resultType="com.shop.fullstack.product.vo.ProductColorVO">
+        SELECT * FROM product_color
+    </select>
+    
+    <select id="selectProductColor" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductColorVO">
+        SELECT * FROM product_color WHERE PC_ID = #{pcId}
+    </select>
+
+    <insert id="insertProductColor" parameterType="com.shop.fullstack.product.vo.ProductColorVO">
+        INSERT INTO product_color (PC_NAME, PC_CODE) VALUES (#{pcName}, #{pcCode})
+    </insert>
+
+    <update id="updateProductColor" parameterType="com.shop.fullstack.product.vo.ProductColorVO">
+        UPDATE product_color 
+        SET PC_NAME = #{pcName},
+        PC_CODE = #{pcCode} 
+        WHERE PC_ID = #{pcId}
+    </update>
+
+    <delete id="deleteProductColor" parameterType="int">
+        DELETE FROM product_color WHERE PC_ID = #{pcId}
+    </delete>
+
+    <select id="selectColorFilterItemCountByDetailCategoryId" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductColorVO">
+    SELECT 
+        pc.PC_ID AS pcId,
+        pc.PC_NAME AS pcName,
+        COUNT(pcm.PC_ID) AS itemCount
+    FROM 
+        product_color pc
+    LEFT JOIN 
+        product_color_mapping pcm ON pc.PC_ID = pcm.PC_ID
+    LEFT JOIN 
+        product p ON pcm.PI_ID = p.PI_ID
+    WHERE 
+        p.PI_DETAIL_CATEGORY_ID = #{detailCategoryId}
+    GROUP BY 
+        pc.PC_ID, pc.PC_NAME
+</select>
+
+</mapper>
+ 

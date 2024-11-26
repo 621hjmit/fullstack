@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.product.mapper.ProductDetailInfoMapper">
+	<select id="selectProductDetailInfos"
+		resultType="com.shop.fullstack.product.vo.ProductDetailInfoVO">
+		SELECT * FROM product_detail_info
+	</select>
+	<select id="selectProductDetailInfoByProductId"
+		parameterType="int"
+		resultType="com.shop.fullstack.product.vo.ProductDetailInfoVO">
+		SELECT *
+		FROM product_detail_info
+		WHERE pi_id = #{piId}
+	</select>
+	<insert id="insertProductDetailInfo">
+		INSERT INTO product_detail_info (PI_ID, PDI_HEIGHT, PDI_SIZE) values
+		(#{piId},#{pdiHeight},#{pdiSize});
+	</insert>
+	<update id="updateProductDetailInfo"
+		parameterType="com.shop.fullstack.product.vo.ProductDetailInfoVO">
+		UPDATE product_detail_info
+		SET
+		PDI_HEIGHT = #{pdiHeight},
+		PDI_SIZE = #{pdiSize}
+		WHERE PI_ID = #{piId}
+	</update>
+	<delete id="deleteProductDetailInfo">
+		DELETE FROM product_detail_info WHERE PDI_ID = #{pdiId}
+	</delete>
+</mapper> 

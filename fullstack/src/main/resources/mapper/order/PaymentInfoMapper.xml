@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.PaymentInfoMapper">
+	
+	<select id="selectPayinfos" resultType="com.shop.fullstack.order.vo.PaymentInfoVO">
+		SELECT * FROM PAYMENT_INFO
+	</select>
+	
+	
+	<select id="selectPayinfo" resultType="com.shop.fullstack.order.vo.PaymentInfoVO">
+		SELECT * FROM PAYMENT_INFO WHERE PAY_NUM = #{payNum}
+	</select>
+	
+	<insert id="insertPayinfo">
+		INSERT INTO PAYMENT_INFO (UI_NUM,PAY_PG,PAY_IMP_UID,PAY_METHOD,
+			OR_ID,OR_PI_NAME,PAY_AMOUNT,PAY_NAME,
+			PAY_STATUS)
+		VALUES (#{uiNum},#{payPg},#{payImpUid},#{payMethod},
+			#{orId},#{orPiName},#{payAmount},#{payName},
+			#{payStatus})
+	</insert>
+		
+	<update id="updatePayinfo">
+		UPDATE PAYMENT_INFO
+		SET UI_NUM = #{uiNum},
+			PAY_PG = #{payPg},
+			PAY_IMP_UID = #{payImpUid},
+			PAY_METHOD = #{payMethod},
+			
+			OR_ID = #{orId},
+			OR_PI_NAME = #{orPiName},
+			PAY_AMOUNT = #{payAmount},
+			PAY_NAME = #{payName},
+			
+			PAY_EMAIL = #{payEmail},
+			PAY_TEL = #{payEmail},
+			PAY_STATUS = #{payStatus},
+			PAY_DATE = #{payDate},
+
+		WHERE PAY_NUM = #{payNum}
+	</update>
+	
+	
+	<delete id="deletePayinfo">
+		DELETE FROM PAYMENT_INFO WHERE PAY_NUM = #{payNum}
+	</delete>
+</mapper>

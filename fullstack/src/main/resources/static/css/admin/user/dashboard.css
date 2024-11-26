@@ -1,0 +1,4 @@
+@charset "UTF-8";
+.table-card .card-body .table tr td:last-child, .table-card .card-body .table tr th:last-child, .table-body.card-body .table tr td:last-child, .table-body.card-body .table tr th:last-child{
+	padding: 0.9rem 0.75rem;
+}

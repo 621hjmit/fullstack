@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.product.mapper.ProductGiftMapper">
+
+    <select id="selectProductGifts" resultType="com.shop.fullstack.product.vo.ProductGiftVO">
+        SELECT * FROM product_gift
+    </select>
+    
+    <select id="selectProductGift" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductGiftVO">
+        SELECT * FROM product_gift WHERE PG_ID = #{pgId}
+    </select>
+
+    <insert id="insertProductGift" parameterType="com.shop.fullstack.product.vo.ProductGiftVO">
+        INSERT INTO product_gift (PG_TEXT) VALUES (#{pgText})
+    </insert>
+
+    <update id="updateProductGift" parameterType="com.shop.fullstack.product.vo.ProductGiftVO">
+        UPDATE product_gift 
+        SET PG_TEXT = #{pgText} 
+        WHERE PG_ID = #{pgId}
+    </update>
+
+    <delete id="deleteProductGift" parameterType="int">
+        DELETE FROM product_gift WHERE PG_ID = #{pgId}
+    </delete>
+
+</mapper>

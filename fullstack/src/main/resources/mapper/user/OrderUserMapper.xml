@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.fullstack.order.mapper.OrderUserMapper">
+
+	<select id="selectOrderUser" resultType="com.shop.fullstack.user.vo.UserInfoVO">                                    
+		SELECT UI_NUM, UI_FIRST_NAME, UI_LAST_NAME, UI_EMAIL, UI_PHONE
+		FROM user_info
+		WHERE UI_NUM = #{uiNum}
+	</select>
+	
+	<select id="selectOrderAddr" resultType="com.shop.fullstack.user.vo.AddressInfoVO">                                    
+		SELECT AI_NUM, AI_RECIPENT_NAME, AI_PHONE, AI_ADDRESS1, 
+			AI_ADDRESS2, AI_DEFAULT, UI_NUM
+		FROM address_info
+		WHERE (UI_NUM = #{uiNum} AND AI_DEFAULT = 1) OR AI_NUM = #{aiNum} 
+	</select>
+</mapper>

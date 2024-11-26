@@ -1,0 +1,5 @@
+searchType
+
+input[name=newsStatus]
+setSub(true) 구독 설정, 구독해지
+

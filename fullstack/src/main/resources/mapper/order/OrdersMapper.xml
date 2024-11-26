@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.fullstack.order.mapper.OrdersMapper">
+
+	<select id="selectOrderTotal" resultType="int">
+		SELECT COUNT(*) 
+		FROM ORDERS
+		<where>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND STR_TO_DATE(CREDAT, '%Y%m%d') BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d') AND STR_TO_DATE(#{endDate}, '%Y%m%d')
+			</if>
+			<if test="orId != null and orId != ''">
+				AND OR_ID = #{orId}
+			</if>
+			<if test="uiName != null and uiName != ''">
+				AND UI_NAME = #{uiName}
+			</if>
+			<if test="uiNum != null and uiNum != ''">
+				AND UI_NUM = #{uiNum}
+			</if>
+			<if test="payName != null and payName != ''">
+				AND PAY_NAME = #{payName}
+			</if>
+			<if test="deiReceiver != null and deiReceiver != ''">
+				AND DEI_RECEIVER = #{deiReceiver}
+			</if>
+			<if test="orStatusPay != null and orStatusPay != ''">
+	        	AND OR_STATUS_PAY = #{orStatusPay}
+	        </if>
+	        <if test="orStatusDelivery != null and orStatusDelivery != ''">
+	        	AND OR_STATUS_DELIVERY = #{orStatusDelivery}
+	        </if>
+	        <if test="orCancle != null and orCancle != ''">
+	        	AND OR_CANCLE = #{orCancle}
+	        </if>
+	        <if test="orExchange != null and orExchange != ''">
+	        	AND OR_EXCHANGE = #{orExchange}
+	        </if>
+	        <if test="orReturn != null and orReturn != ''">
+	        	AND OR_RETURN = #{orReturn}
+	        </if>
+	        <if test="orRefund != null and orRefund != ''">
+	        	AND OR_REFUND = #{orRefund}
+	        </if>
+		</where>
+	</select>
+	
+	<select id="selectOrderAll" resultType="com.shop.fullstack.order.vo.OrdersVO">
+		SELECT * FROM ORDERS
+	    <where>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND STR_TO_DATE(CREDAT, '%Y%m%d') BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d') AND STR_TO_DATE(#{endDate}, '%Y%m%d')
+			</if>
+			<if test="orId != null and orId != ''">
+				AND OR_ID = #{orId}
+			</if>
+			<if test="uiName != null and uiName != ''">
+				AND UI_NAME = #{uiName}
+			</if>
+			<if test="uiNum != null and uiNum != ''">
+				AND UI_NUM = #{uiNum}
+			</if>
+			<if test="payName != null and payName != ''">
+				AND PAY_NAME = #{payName}
+			</if>
+			<if test="deiReceiver != null and deiReceiver != ''">
+				AND DEI_RECEIVER = #{deiReceiver}
+			</if>
+			<if test="orStatusPay != null and orStatusPay != ''">
+	        	AND OR_STATUS_PAY = #{orStatusPay}
+	        </if>
+	        <if test="orStatusDelivery != null and orStatusDelivery != ''">
+	        	AND OR_STATUS_DELIVERY = #{orStatusDelivery}
+	        </if>
+	        <if test="orCancle != null and orCancle != ''">
+	        	AND OR_CANCLE = #{orCancle}
+	        </if>
+	        <if test="orExchange != null and orExchange != ''">
+	        	AND OR_EXCHANGE = #{orExchange}
+	        </if>
+	        <if test="orReturn != null and orReturn != ''">
+	        	AND OR_RETURN = #{orReturn}
+	        </if>
+	        <if test="orRefund != null and orRefund != ''">
+	        	AND OR_REFUND = #{orRefund}
+	        </if>
+		</where>
+	    ORDER BY OR_NUM DESC
+	    LIMIT #{start}, #{pageCount}
+	</select>
+	
+	<select id="totalAmountToday" resultType="int">
+		SELECT SUM(OR_AMOUNT) AS totalAmountToday
+		FROM ORDERS
+		WHERE DATE(CREDAT) = CURDATE()
+	</select>
+	<select id="totalCountToday" resultType="int">
+		SELECT COUNT(*) AS totalCountToday
+		FROM ORDERS
+		WHERE DATE(CREDAT) = CURDATE()
+	</select>
+	<select id="totalAmountMonth" resultType="int">
+		SELECT SUM(OR_AMOUNT) AS totalAmountMonth
+		FROM ORDERS
+		WHERE STR_TO_DATE(CREDAT, '%Y%m%d') BETWEEN STR_TO_DATE(#{startDate}, '%Y-%m-%d') 
+                                           AND STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+	</select>
+	<select id="totalCountMonth" resultType="int">
+    	SELECT COUNT(*)
+    	FROM ORDERS
+    	WHERE STR_TO_DATE(CREDAT, '%Y%m%d') BETWEEN STR_TO_DATE(#{startDate}, '%Y-%m-%d') 
+                                           AND STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+	</select>
+	<select id="refundAmountToday" resultType="int">
+    	SELECT SUM(OR_AMOUNT) AS refundAmountToday
+    	FROM ORDERS
+    	WHERE DATE(CREDAT) = CURDATE() AND OR_REFUND IS NOT NULL
+	</select>
+	<select id="refundCountToday" resultType="int">
+    	SELECT COUNT(*) AS refundCountToday
+    	FROM ORDERS
+    	WHERE DATE(CREDAT) = CURDATE() AND OR_REFUND IS NOT NULL
+	</select>
+	
+	<select id="refundAmountMonth" resultType="int">
+    	SELECT SUM(OR_AMOUNT) AS refundAmountMonth
+    	FROM ORDERS
+    	WHERE STR_TO_DATE(CREDAT, '%Y%m%d') BETWEEN STR_TO_DATE(#{startDate}, '%Y-%m-%d') 
+                                           AND STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+      			AND OR_REFUND IS NOT NULL
+	</select>
+	<select id="refundCountMonth" resultType="int">
+    	SELECT COUNT(*) AS refundCountMonth
+    	FROM ORDERS
+    	WHERE STR_TO_DATE(CREDAT, '%Y%m%d') BETWEEN STR_TO_DATE(#{startDate}, '%Y-%m-%d') 
+                                           AND STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+      			AND OR_REFUND IS NOT NULL
+	</select>
+	
+	<select id="newOrder" resultType="int">
+    	SELECT COUNT(*) AS newOrder
+    	FROM ORDERS
+    	WHERE OR_STATUS_DELIVERY IS NULL
+	</select>
+	
+	<select id="prepProduct" resultType="int">
+    	SELECT COUNT(*) AS prepProduct
+    	FROM ORDERS
+    	WHERE OR_STATUS_DELIVERY = "상품준비중"
+	</select>
+	
+	<select id="prepDelivery" resultType="int">
+    	SELECT COUNT(*) AS prepDelivery
+    	FROM ORDERS
+    	WHERE OR_STATUS_DELIVERY = "배송준비중"
+	</select>
+	
+	<select id="holdDelivery" resultType="int">
+    	SELECT COUNT(*) AS holdDelivery
+    	FROM ORDERS
+    	WHERE OR_STATUS_DELIVERY = "배송보류"
+	</select>
+	<select id="onDelivery" resultType="int">
+    	SELECT COUNT(*) AS onDelivery
+    	FROM ORDERS
+    	WHERE OR_STATUS_DELIVERY = "배송중"
+	</select>
+		
+	<select id="cancleOrder" resultType="int">
+    	SELECT COUNT(*) AS cancleOrder
+    	FROM ORDERS
+    	WHERE OR_CANCLE IS NOT NULL
+	</select>
+	
+	<select id="cancleOrderAll" resultType="com.shop.fullstack.order.vo.OrdersVO">
+		SELECT * FROM ORDERS
+	    WHERE OR_CANCLE IS NOT NULL
+	</select>
+	
+	<select id="exchangeOrder" resultType="int">
+    	SELECT COUNT(*) AS exchangeOrder
+    	FROM ORDERS
+    	WHERE OR_EXCHANGE IS NOT NULL
+	</select>
+	
+	<select id="exchangeOrderAll" resultType="com.shop.fullstack.order.vo.OrdersVO">
+		SELECT * FROM ORDERS
+	    WHERE OR_EXCHANGE IS NOT NULL
+	</select>
+	
+	<select id="returnOrder" resultType="int">
+    	SELECT COUNT(*) AS returnOrder
+    	FROM ORDERS
+    	WHERE OR_RETURN IS NOT NULL
+	</select>
+	
+	<select id="returnOrderAll" resultType="com.shop.fullstack.order.vo.OrdersVO">
+		SELECT * FROM ORDERS
+	    WHERE OR_RETURN IS NOT NULL
+	</select>
+	
+	<select id="refundOrder" resultType="int">
+    	SELECT COUNT(*) AS refundOrder
+    	FROM ORDERS
+    	WHERE OR_REFUND IS NOT NULL
+	</select>
+	
+	<select id="refundOrderAll" resultType="com.shop.fullstack.order.vo.OrdersVO">
+		SELECT * FROM ORDERS
+	    WHERE OR_REFUND IS NOT NULL
+	</select>
+	
+	<insert id="insertOrder">
+		INSERT INTO ORDERS(OR_ID, UI_NUM, UI_NAME, OR_PI_NAME,
+			OR_ITEM_COUNT, OR_AMOUNT, OR_STATUS)
+		VALUES (#{orId}, #{uiNum}, #{uiName}, #{orPiName},
+			#{orItemCount}, #{orAmount}, #{orStatus})
+	</insert>
+	
+	<update id="updateOrderPay">
+		UPDATE ORDERS
+		SET 
+			PAY_NUM = #{payNum},
+			PAY_NAME = #{payName},
+			PAY_METHOD = #{payMethod},
+			OR_STATUS_PAY = #{orStatusPay}
+		WHERE OR_ID = #{orId}
+	</update>
+	
+	<update id="updateOrderDelivery">
+		UPDATE ORDERS
+		SET 
+			DEI_NUM = #{deiNum},
+			DEI_RECEIVER = #{deiReceiver},
+			DEI_INVOICENUM = #{deiInvoiceNum},
+			OR_STATUS_DELIVERY = #{orStatusDelivery},
+			OR_MEMO = #{orMemo}
+		WHERE OR_ID = #{orId}
+	</update>
+	
+	<update id="updateOrStatusDelivery">
+		UPDATE ORDERS
+		SET OR_STATUS_DELIVERY = #{orStatusDelivery}
+		WHERE OR_NUM = #{orNum}
+	</update>
+	
+	<update id="updateOrderStatus">
+		UPDATE ORDERS
+		SET OR_STATUS = #{orStatus}
+		WHERE OR_NUM = #{orNum}
+	</update>
+	
+</mapper>

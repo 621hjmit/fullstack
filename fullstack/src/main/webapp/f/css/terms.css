@@ -1,0 +1,110 @@
+@import url(style.css);
+.flex{
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.main-container .title{
+    padding:20px;
+}.main-container .body{
+    padding : 15px 15px 0;
+}
+.left-column{
+    flex-basis: 75%;
+}
+.right-column{
+    flex-basis: 35%
+}
+.title .boxed-title{
+    font-size: var(--font-size-title-large);
+}
+.body *{
+    font-size: var(--font-size-text-large);
+    font-family: var(--arial-fontfamily);
+}
+.body h4{
+    font-weight: bold;
+    margin-bottom:10px;
+    
+}
+.body p{
+    line-height: 1.3em;
+}
+.border-bottom{
+    border-bottom: 1px solid var(--border-color);
+}
+.padding-bottom15{
+    padding-bottom:15px !important;
+}
+.item:not(:last-child){
+    border-bottom: 1px solid var(--border-color);
+}
+.item-header{
+    font-size: var(--font-size-text-large);
+    font-weight: bold;   
+    padding:16px 0;
+    position: relative;
+    cursor: pointer;
+}
+.item-body{
+    margin-bottom: 20px;
+    display: none;
+}
+.dropdown-plus{
+    background: url(../images/revet-plus.svg) center no-repeat;
+    width:14px;
+    height:14px;
+    display: block;
+    position:absolute;
+    right:0;
+    top: 21.5px;
+}
+.item-header.on .dropdown-plus{
+    background: url(../images/revet-minus.svg) center no-repeat;
+}
+.tc4{
+    color:var(--gray-color)
+}
+.item-body ul{
+    list-style: square;
+    margin:0 30px;
+}
+.item-body li{
+    margin-bottom:24px;
+}
+.text-bold, b,strong{
+    font-weight: bold;
+}
+.agree{
+    width: 500px;
+    margin:auto;
+    text-align:center;
+}
+.agree td{
+    border: 1px solid var(--primary-color)
+}
+.body h2{
+    font-size: var(--font-size-title-medium);
+    color:var(--primary-color)
+}
+.item-body table{
+    margin:10px 0;
+}
+.item-body td{
+    border: 1px solid var(--primary-color);
+    padding:10px;
+    text-align:center;
+    vertical-align: middle;
+    width:100%;
+}
+.item-body td .editorial-block-paragraph{
+    margin-top:0;
+}
+.editorial-block-paragraph{
+    margin:12px 0;
+}
+.editorial-block-paragraph strong{
+    padding: 5px 0;
+    display: inline-block;
+}

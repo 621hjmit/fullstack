@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.admin.user.mapper.AdminBestMapper">
+  <select id="getAdminBestUsers">
+	SELECT 
+	  ROW_NUMBER() OVER(ORDER BY 1 DESC) AS 'ROW_NUMBER', U.UI_EMAIL, U.UI_FIRST_NAME, U.UI_LAST_NAME, U.UI_PHONE, SUM(O.OR_AMOUNT) AS OR_AMOUNT, 
+	  A.AI_ADDRESS1, A.AI_ADDRESS2, RANK() OVER(ORDER BY OR_AMOUNT DESC) AS 'OR_RANK' 
+	FROM user_info U 
+	LEFT JOIN orders O ON U.UI_NUM = O.UI_NUM 
+	INNER JOIN address_info A ON U.UI_NUM = A.UI_NUM 
+  <where>
+    AND A.AI_DEFAULT = 1 
+    <if test="uiStartDate != null and uiStartDate != ''">
+      AND STR_TO_DATE(O.CREDAT, '%Y%m%d') &gt;= #{uiStartDate}
+    </if>
+    <if test="uiEndDate != null and uiEndDate != ''">
+      AND STR_TO_DATE(O.CREDAT, '%Y%m%d') &lt;= #{uiEndDate}
+    </if>
+  </where>
+	GROUP BY U.UI_NUM 
+	ORDER BY OR_AMOUNT DESC 
+  LIMIT #{start}, #{count}
+  </select>
+  <select id="getAdminBestUsersTotal">
+  SELECT
+	 COUNT(DISTINCT U.UI_NUM)
+	FROM user_info U
+	LEFT JOIN orders O ON U.UI_NUM = O.UI_NUM
+	INNER JOIN address_info A ON U.UI_NUM = A.UI_NUM
+  <where>
+    AND A.AI_DEFAULT = 1 
+    <if test="uiStartDate != null and uiStartDate != ''">
+      AND STR_TO_DATE(O.CREDAT, '%Y%m%d') &gt;= #{uiStartDate}
+    </if>
+    <if test="uiEndDate != null and uiEndDate != ''">
+      AND STR_TO_DATE(O.CREDAT, '%Y%m%d') &lt;= #{uiEndDate}
+    </if>
+  </where>
+  </select>
+</mapper>

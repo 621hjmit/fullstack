@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.fullstack.product.mapper.ProductOnlineMappingMapper">
+
+    <!-- Select Product Online Mapping by Product ID -->
+    <select id="selectProductOnlineMappingByProductId" parameterType="int" resultType="com.shop.fullstack.product.vo.ProductOnlineMappingVO">
+        SELECT *
+        FROM product_online_mapping
+        WHERE PI_ID = #{piId}
+    </select>
+
+    <!-- Insert Product Online Mapping -->
+    <insert id="insertProductOnlineMapping" parameterType="com.shop.fullstack.product.vo.ProductOnlineMappingVO">
+        INSERT INTO product_online_mapping (PI_ID, IS_ONLINE)
+        VALUES (#{piId}, #{isOnline})
+    </insert>
+
+    <!-- Update Product Online Mapping -->
+    <update id="updateProductOnlineMapping" parameterType="com.shop.fullstack.product.vo.ProductOnlineMappingVO">
+        UPDATE product_online_mapping
+        SET IS_ONLINE = #{isOnline}
+        WHERE PI_ID = #{piId}
+    </update>
+
+    <!-- Delete Product Online Mapping by Product ID -->
+    <delete id="deleteProductOnlineMappingByProductId" parameterType="int">
+        DELETE FROM product_online_mapping
+        WHERE PI_ID = #{piId}
+    </delete>
+
+</mapper>

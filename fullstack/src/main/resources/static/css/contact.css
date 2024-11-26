@@ -1,0 +1,24 @@
+.contact p,.fs-4{
+    margin-bottom: 20px;
+    line-height: 1.5rem !important;
+}
+
+/* small devices (landscape mobiles, 767px and down) */
+@media only screen and (max-width: 767px) {
+	.row{
+		display:block;
+	}
+	.text-right .button-base{
+		float:none;
+	}
+}
+/* medium devices (landscape tablets, 767px and down) */
+@media (min-width: 768px) {
+    .main-container,
+    .sb-show-main .main-container,
+    .modal-service .main-container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 24px;
+    }
+}

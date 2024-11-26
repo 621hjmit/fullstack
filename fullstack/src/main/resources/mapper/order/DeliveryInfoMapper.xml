@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.DeliveryInfoMapper">
+
+	<select id="selectDeliveryInfos" resultType="com.shop.fullstack.order.vo.DeliveryInfoVO">
+		SELECT * FROM DELIVERY_INFO
+	</select>
+	
+	<select id="selectDeliveryInfo" resultType="com.shop.fullstack.order.vo.DeliveryInfoVO">
+		SELECT * FROM DELIVERY_INFO WHERE DEI_NUM = #{deiNum}
+	</select>
+	
+	<insert id="insertDeliveryInfo">
+		INSERT INTO DELIVERY_INFO (DCI_NUM, DEI_INVOICE_NUM, DEI_RECEIVE, DEI_ADDRESS, 
+		DEI_POSTAL_CODE, DEI_PHONE, DEI_STATUS)
+		VALUES (#{dciNum}, #{deiInvoiceNum}, #{deiReveive}, #{deiAddress},
+		#{deiPostalCode}, #{deiPhone}, #{deiStatus})
+	</insert>
+	
+	<update id="updateDeliveryInfo">
+		UPDATE DELIVERY_INFO
+		SET DCI_NUM = #{dciNum},
+			DEI_INVOICE_NUM = #{deiInvoiceNum},
+			DEI_RECEIVE = #{deiReveive},
+			DEI_ADDRESS = #{deiAddress},
+			DEI_POSTAL_CODE = #{deiPostalCode},
+			DEI_PHONE = #{deiPhone},
+			DEI_STATUS = #{deiStatus}
+		WHERE DEI_NUM = #{deiNum}
+	</update>
+	
+	<delete id="deleteDeliveryInfo">
+		DELETE FROM DELIVERY_INFO WHERE DEI_NUM = #{deiNum}
+	</delete>
+	
+</mapper>

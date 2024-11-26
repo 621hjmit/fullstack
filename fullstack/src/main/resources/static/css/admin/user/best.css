@@ -1,0 +1,6 @@
+@charset "UTF-8";
+.table-card .card-body #best.table tr td:first-child,
+.table-card .card-body #best.table tr th:first-child{
+	
+  padding-left:12px;
+}

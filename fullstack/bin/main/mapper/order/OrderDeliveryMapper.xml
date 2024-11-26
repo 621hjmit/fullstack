@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.fullstack.order.mapper.OrderDeliveryMapper">
+	<select id="selectOrderDeliveryAll" resultType="com.shop.fullstack.order.vo.OrderDeliveryVO">
+		SELECT * FROM ORDER_DELIVERY
+	</select>
+	
+	<select id="selectOrderDelivery" resultType="com.shop.fullstack.order.vo.OrderDeliveryVO">
+		SELECT * FROM ORDER_DELIVERY WHERE ORD_NUM = #{ordNum}
+	</select>
+	
+	<insert id="insertOrderDelivery">
+		INSERT INTO ORDER_DELIVERY (OR_NUM, DEI_NUM)
+		VALUES (#{orNum},#{deiNum})
+	</insert>
+	
+	<update id="updateOrderDelivery">
+		UPDATE ORDER_DELIVERY
+		SET OR_NUM = #{orNum},
+			DEI_NUM = #{deiNum}
+		WHERE ORD_NUM = #{ordNum}
+	</update>
+	
+	<delete id="deleteOrderDelivery"></delete>
+</mapper>

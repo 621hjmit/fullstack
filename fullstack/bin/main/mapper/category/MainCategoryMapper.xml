@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.shop.fullstack.category.mapper.MainCategoryMapper">
+
+	<select id="selectAllMainCategories"
+		resultType="com.shop.fullstack.category.vo.CategoryVO">
+		SELECT MAIN_CATEGORY_ID, MAIN_CATEGORY_NAME FROM
+		MainCategory
+	</select>
+
+	<select id="selectAllMainCategoriesWithSubCategories"
+		resultType="com.shop.fullstack.category.vo.CategoryVO">
+		SELECT
+		mc.MAIN_CATEGORY_ID,
+		mc.MAIN_CATEGORY_NAME,
+		sc.SUB_CATEGORY_ID,
+		sc.SUB_CATEGORY_NAME,
+		dc.DETAIL_CATEGORY_ID,
+		dc.DETAIL_CATEGORY_NAME
+		FROM
+		MainCategory mc
+		LEFT JOIN 
+		SubCategory sc ON
+		mc.MAIN_CATEGORY_ID = sc.FOREIGN_MAIN_CATEGORY_ID
+		LEFT JOIN
+		DetailCategory dc ON sc.SUB_CATEGORY_ID = dc.FOREIGN_SUB_CATEGORY_ID
+	</select>
+
+	<select id="selectMainCategory"
+		resultType="com.shop.fullstack.category.vo.CategoryVO">
+		SELECT MAIN_CATEGORY_ID, MAIN_CATEGORY_NAME FROM
+		MainCategory WHERE
+		MAIN_CATEGORY_ID = #{mainCategoryId}
+	</select>
+
+	<insert id="insertMainCategory">
+		INSERT INTO MainCategory (MAIN_CATEGORY_NAME)
+		VALUES
+		(#{mainCategoryName})
+	</insert>
+
+    <update id="updateMainCategory" parameterType="map">
+        UPDATE MainCategory
+        SET MAIN_CATEGORY_NAME = #{mainCategoryName}
+        WHERE MAIN_CATEGORY_ID = #{mainCategoryId}
+    </update>
+
+	<delete id="deleteMainCategory">
+		DELETE FROM MainCategory WHERE MAIN_CATEGORY_ID =
+		#{mainCategoryId}
+	</delete>
+</mapper>

@@ -1,0 +1,19 @@
+@charset "UTF-8";
+.user{
+  color: var(--gray-color);
+}
+.main-container .body{
+	padding:25px;
+}
+.info{
+    position: relative;
+    top: -35px;
+    font-size: 13px;
+}
+
+dt{
+	padding-bottom:10px;
+}
+dd{
+  padding-bottom:20px;
+}
