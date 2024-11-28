@@ -1,10 +1,10 @@
-package com.shop.hermesplus;
+package com.shop.fullstack;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HermesplusApplicationTests {
+class FullstackApplicationTests {
 
 	@Test
 	void contextLoads() {
