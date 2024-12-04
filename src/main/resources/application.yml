@@ -25,6 +25,7 @@ spring:
   web:
     resources:
       static-locations: ${STATIC_LOCATION}
+      add-mappings: true  # uploads경로로 파일을 요청해도 자동으로 경로 매핑을 추가하도록 설정
 mybatis:
   mapper-locations: mapper/**/*.xml
   configuration:
