@@ -22,7 +22,9 @@ spring:
       connection-init-sql: ${CONNECTION_INIT_SQL}
       minimum-idle: ${MINIMUM_IDLE}
       maximum-pool-size: ${MAXIMUM_POOL_SIZE}
-
+  web:
+    resources:
+      static-locations: ${STATIC_LOCATION}
 mybatis:
   mapper-locations: mapper/**/*.xml
   configuration:
