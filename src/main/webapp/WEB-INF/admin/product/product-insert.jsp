@@ -249,42 +249,42 @@ async function addProduct() {
     	    }
     	};
 
-        // 2. FormData 생성 및 이미지 파일 추가
-        const formData = new FormData();
-        formData.append("productData", new Blob([JSON.stringify(productData)], { type: "application/json" }));
+      // 2. FormData 생성 및 이미지 파일 추가
+      const formData = new FormData();
+      formData.append("productData", new Blob([JSON.stringify(productData)], { type: "application/json" }));
 
-        // 메인 이미지 추가
-        if (mainImageFile) {
-            formData.append("images", mainImageFile);
-        }
+      // 메인 이미지 추가
+      if (mainImageFile) {
+          formData.append("images", mainImageFile);
+      }
 
-        for (let i = 0; i < detailImageFiles.length; i++) {
-            formData.append("images", detailImageFiles[i]);
-        }
+      for (let i = 0; i < detailImageFiles.length; i++) {
+          formData.append("images", detailImageFiles[i]);
+      }
 
-        // 세부 이미지 추가
-        for (let i = 0; i < detailImageFiles.length; i++) {
-            formData.append("detailImages", detailImageFiles[i]);
-        }
+      // 세부 이미지 추가
+      for (let i = 0; i < detailImageFiles.length; i++) {
+          formData.append("detailImages", detailImageFiles[i]);
+      }
 
-        // FormData 값 출력 (디버깅 용도)
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
+      // FormData 값 출력 (디버깅 용도)
+      for (let pair of formData.entries()) {
+          console.log(pair[0] + ', ' + pair[1]);
+      }
 
-        // 3. 제품 정보 서버에 저장 (ProductController 호출)
-        const productResponse = await axios.post('/product', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
+      // 3. 제품 정보 서버에 저장 (ProductController 호출)
+      const productResponse = await axios.post('/product', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+      });
 
-        if (productResponse.status !== 200) {
-            alert('상품 등록 중 오류가 발생했습니다. 다시 시도해주세요.');
-            return;
-        }
+      if (productResponse.status !== 200) {
+          alert('상품 등록 중 오류가 발생했습니다. 다시 시도해주세요.');
+          return;
+      }
 
-        // 제품 등록이 성공적으로 완료되었을 때 알림 후 페이지 이동
-        alert('상품이 성공적으로 등록되었습니다!');
-        window.location.href = "/admin/product/product-list"; // product-list 페이지로 이동
+      // 제품 등록이 성공적으로 완료되었을 때 알림 후 페이지 이동
+      alert('상품이 성공적으로 등록되었습니다!');
+      window.location.href = "/admin/product/product-list"; // product-list 페이지로 이동
         
     } catch (error) {
         console.error('상품 등록 중 오류 발생:', error);

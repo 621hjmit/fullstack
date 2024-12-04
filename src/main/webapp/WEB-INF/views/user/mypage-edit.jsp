@@ -1,4 +1,4 @@
-<%@page import="com.shop.fullstack.UserInfoVO"%>
+<%@page import="com.shop.fullstack.user.voUserInfoVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <!-- 로컬 CSS -->
