@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 public class FileController {
 
     // 파일이 저장된 기본 경로
-    private final String baseDir = "/var/www/upload";
+    private final String baseDir = "/var/www/uploads";
 
     @GetMapping("/product/images/{filename:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
