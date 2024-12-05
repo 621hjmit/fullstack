@@ -186,7 +186,7 @@ async function loadProductList(page, itemsPerPage, filters = {}) {
                         <td class="text-center" style="padding-right:0px">
                             <ul class="list-inline me-auto mb-0">
                                 <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="상품 보러가기">
-                                    <a href="https://herms.shop/views/product/detail?piId=${product.piId}" class="avtar avtar-xs btn-link-secondary btn-pc-default" target="_blank">
+                                    <a href="/views/product/detail?piId=${product.piId}" class="avtar avtar-xs btn-link-secondary btn-pc-default" target="_blank">
                                         <i class="ti ti-eye f-18"></i>
                                     </a>
                                 </li>
