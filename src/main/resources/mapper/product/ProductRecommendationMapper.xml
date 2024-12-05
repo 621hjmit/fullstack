@@ -16,7 +16,7 @@
 		FROM
 		product_img
 		WHERE PI_ID = p.PI_ID
-		AND PIMG_NAME LIKE 'main_%') AS
+		AND PIMG_NAME LIKE 'main_%' LIMIT 1) AS
 		PIMG_URL
 		FROM product p
 		WHERE PI_MAIN_CATEGORY_ID = #{mainCategoryId}
@@ -39,7 +39,7 @@
 		FROM
 		product_img
 		WHERE PI_ID = p.PI_ID
-		AND PIMG_NAME LIKE 'main_%') AS
+		AND PIMG_NAME LIKE 'main_%' LIMIT 1) AS
 		PIMG_URL
 		FROM
 		product p
