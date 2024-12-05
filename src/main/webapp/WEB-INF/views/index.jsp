@@ -6,7 +6,7 @@
 <!-- 로컬 js -->
 <script src='/static/js/script.js' defer></script>
 <script src='/static/js/main.js' defer></script>
-<main id="main" class="margin-top-35">
+<main id="main" class="margin-top-25">
 
 	<div class="editorial-common">
 		<section class="block_full_hero_media">
