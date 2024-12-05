@@ -16,12 +16,10 @@
 		</section>
 		<div class="ng-star-inserted">
 			<section class="block-text">
-				<h2 class="editorial-block-title">2024 가을-겨울 여성복 컬렉션의 두 번째 챕터</h2>
-				<p class="editorial-block-intro">활기가 넘치는 뉴욕의 이브닝 타임, 거리의 리듬을
-					주도하는 신호등의 포근한 빛이 느껴집니다. 모든 것이 가능한 도시 뉴욕의 어둡고 환상적인 거리를 밝히는 에르메스의
-					오마쥬가 펼쳐집니다.&nbsp;</p>
+				<h2 class="editorial-block-title">모든 국민은 통신의 비밀을 침해받지 아니한다.</h2>
+				<p class="editorial-block-intro">국가는 평생교육을 진흥하여야 한다. 행정각부의 설치·조직과 직무범위는 법률로 정한다. 국가는 농업 및 어업을 보호·육성하기 위하여 농·어촌종합개발과 그 지원등 필요한 계획을 수립·시행하여야 한다.&nbsp;</p>
 				<p class="editorial-block-intro">
-					<a data-cta-spa="" href="https://herms.shop/views/product/list?mainCategoryId=1&subCategoryId=1&detailCategoryId=1">컬렉션 보러가기</a>
+					<a data-cta-spa="" href="/views/product/list?mainCategoryId=1&subCategoryId=1&detailCategoryId=1">컬렉션 보러가기</a>
 				</p>
 			</section>
 		</div>
@@ -34,42 +32,42 @@
 		<div class="block-media  ">
 			<ul class="grid-plate set4by2 set-mobile-2by4">
 				<li class=""><a
-					href="https://herms.shop/views/product/list?mainCategoryId=1&subCategoryId=2&detailCategoryId=11">
+					href="/views/product/list?mainCategoryId=1&subCategoryId=2&detailCategoryId=11">
 						<div>
 							<img src="/static/main_images/section1_01_scarf.webp" alt="여성 실크"><span
 								class="product-name">여성 실크</span>
 						</div>
 				</a></li>
 				<li class=""><a
-					href="https://herms.shop/views/product/list?mainCategoryId=1&subCategoryId=4&detailCategoryId=15">
+					href="/views/product/list?mainCategoryId=1&subCategoryId=4&detailCategoryId=15">
 						<div>
 							<img src="/static/main_images/section1_02_leather.webp"
 								alt="가죽 소품"><span class="product-name">가죽 소품</span>
 						</div>
 				</a></li>
 				<li class=""><a
-					href="https://herms.shop/views/product/list?mainCategoryId=5&subCategoryId=31&detailCategoryId=49">
+					href="/views/product/list?mainCategoryId=5&subCategoryId=31&detailCategoryId=49">
 						<div>
 							<img src="/static/main_images/section1_03_perfume.webp" alt="향수"><span
 								class="product-name">향수</span>
 						</div>
 				</a></li>
 				<li class=""><a
-					href="https://herms.shop/views/product/list?mainCategoryId=1&subCategoryId=1&detailCategoryId=1">
+					href="/views/product/list?mainCategoryId=1&subCategoryId=1&detailCategoryId=1">
 						<div>
 							<img src="/static/main_images/section1_04_women.webp" alt="여성복"><span
 								class="product-name">여성복</span>
 						</div>
 				</a></li>
 				<li class=""><a
-					href="https://herms.shop/views/product/list?mainCategoryId=1&subCategoryId=3&detailCategoryId=68">
+					href="/views/product/list?mainCategoryId=1&subCategoryId=3&detailCategoryId=68">
 						<div>
 							<img src="/static/main_images/section1_05_shoes.webp" alt="여성 슈즈"><span
 								class="product-name">여성 슈즈</span>
 						</div>
 				</a></li>
 				<li class=""><a
-					href="https://herms.shop/views/product/list?mainCategoryId=1&subCategoryId=1&detailCategoryId=8">
+					href="/views/product/list?mainCategoryId=5&subCategoryId=31&detailCategoryId=52">
 						<div>
 							<img src="/static/main_images/section1_06_bath.webp"
 								alt="배스와 비치 용품"><span class="product-name">배스와 비치
@@ -77,14 +75,14 @@
 						</div>
 				</a></li>
 				<li class=""><a
-					href="https://herms.shop/views/product/list?mainCategoryId=2&subCategoryId=10&detailCategoryId=24">
+					href="/views/product/list?mainCategoryId=2&subCategoryId=10&detailCategoryId=24">
 						<div>
 							<img src="/static/main_images/section1_07_men.webp" alt="남성복"><span
 								class="product-name">남성복</span>
 						</div>
 				</a></li>
 				<li class=""><a
-					href="https://herms.shop/views/product/list?mainCategoryId=1&subCategoryId=6&detailCategoryId=76">
+					href="/views/product/list?mainCategoryId=1&subCategoryId=6&detailCategoryId=76">
 						<div>
 							<img src="/static/main_images/section1_08_hat.webp" alt="모자"><span
 								class="product-name">모자</span>
@@ -94,9 +92,8 @@
 		</div>
 		<div class="ng-star-inserted">
 			<section class="block-text">
-				<h2 class="editorial-block-title">맨해튼 로카바르</h2>
-				<p class="editorial-block-intro">진저 옐로우, 말라카이트 그린, 버밀리언 레드가 가을
-					패션을 밝혀줍니다.</p>
+				<h2 class="editorial-block-title">맨해튼 위스키 베이스</h2>
+				<p class="editorial-block-intro">국가는 평생교육을 진흥하여야 한다. 행정각부의 설치·조직과 직무범위는 법률로 정한다.</p>
 				<p class="editorial-block-intro">Discover our selection</p>
 			</section>
 		</div>
@@ -119,15 +116,14 @@
 		</div>
 		<div class="ng-star-inserted">
 			<section class="block-text">
-				<h2 class="editorial-block-title">르 뱅 에르메스, 감각을 위한 오브제</h2>
-				<p class="editorial-block-intro">에르메스 라이프스타일이 모든 감각을 일깨우는 오브제와
-					함께 욕실까지 확장됩니다. 에르메스 인장이 새겨진 장식적이고 리필이 가능한 이 보틀에는 COLOGNES &amp;
-					PARFUMS-JARDINS 컬렉션의 상징적인 향이 담겨있습니다. EAU DE CITRON NOIR, EAU
-					D'ORANGE VERTE 및 EAU DE RHUBARBE ÉCARLATE 향기가 거품으로 변신합니다!</p>
+				<h2 class="editorial-block-title">르 뱅 풀스택, 감각을 위한 향기</h2>
+				<p class="editorial-block-intro">국가는 평생교육을 진흥하여야 한다. 행정각부의 설치·조직과 직무범위는 법률로 정한다. 
+				국가는 농업 및 어업을 보호·육성하기 위하여 농·어촌종합개발과 그 지원등 필요한 계획을 수립·시행하여야 한다.모든 국민은 통신의 비밀을 침해받지 아니한다. 
+				형사피의자 또는 형사피고인으로서 구금되었던 자가 법률이 정하는 불기소처분을 받거나 무죄판결을 받은 때에는 법률이 정하는 바에 의하여 국가에 정당한 보상을 청구할 수 있다.</p>
 				<p class="editorial-block-intro">
 					<a
-						href="https://herms.shop/views/product/list?mainCategoryId=5&subCategoryId=31&detailCategoryId=49">르
-						뱅 에르메스를 즐겨보세요</a>
+						href="/views/product/list?mainCategoryId=5&subCategoryId=31&detailCategoryId=49">르
+						뱅 풀스택을 즐겨보세요</a>
 				</p>
 			</section>
 		</div>
