@@ -13,23 +13,5 @@ public class ViewsController {
 	@GetMapping("/views/**")
 	public void goPage() {
 	}
-	
-	
-	/*
-	@GetMapping("/product/images/{filename:.+}")
-	public ResponseEntity<Resource> serveImage(@PathVariable String filename) throws FileNotFoundException {
-	    Path imagePath = Paths.get("src/main/resources/static/product/images/" + filename);
-	    Resource resource;
-	    try {
-	        resource = new UrlResource(imagePath.toUri());
-	        if (resource.exists() || resource.isReadable()) {
-	            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(imagePath)).body(resource);
-	        } else {
-	            throw new FileNotFoundException("Could not read file: " + filename);
-	        }
-	    } catch (IOException e) {
-	        throw new RuntimeException("Error: " + e.getMessage());
-	    }
-	}
-	*/
+
 }
