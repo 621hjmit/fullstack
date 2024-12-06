@@ -1,6 +1,0 @@
-server:
-  port: ${PROD_SERVER_PORT}
-
-file:
-  upload:
-    path: ${PROD_FILE_UPLOAD_PATH}

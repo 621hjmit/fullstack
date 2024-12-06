@@ -1,0 +1,56 @@
+
+
+/* Services
+-----------------------------------------------------------------*/
+
+.services{
+
+    .item{
+        padding-top: 40px;
+        padding-bottom: 40px;
+        margin: auto !important;
+        border-bottom: 1px solid rgba(255,255,255,.2);
+        transition: all .4s;
+
+        h6{
+            font-weight: 300;
+        }
+
+        h4{
+            font-weight: 600;
+        }
+
+        .text{
+            text-wrap: pretty;
+            padding-right: 30px;
+
+            p{
+                font-size: 14px;
+            }
+        }
+
+        .arrow{
+
+            svg{
+                width: 25px;
+                stroke: currentColor;
+                fill: currentColor;
+            }
+        }
+
+        &.active{
+            background: var(--maincolor);
+            color: #1d1d1d;
+
+            p{
+                color: #333;
+                font-weight: 400;
+            }
+        }
+
+        &:last-of-type{
+            border-bottom: 0;
+        }
+    }
+}
+

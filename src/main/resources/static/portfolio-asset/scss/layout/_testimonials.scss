@@ -1,0 +1,77 @@
+
+/* Testimonials
+-----------------------------------------------------------------*/
+
+.testim-crv{
+
+    .testim-swiper{
+
+        .item{
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: $main_bg;
+            overflow: hidden;
+            position: relative;
+            z-index: 3;
+
+            .img{
+                width: 80px;
+                margin-top: -40px;
+                margin-left: -40px;
+            }
+        }
+    }
+}
+
+.swiper-controls{
+
+    .swiper-button-prev,
+    .swiper-button-next{
+        position: static;
+        display: inline-block;
+
+        &:after{
+            display: none;
+        }
+    }
+
+    &.arrow-out{
+
+        .swiper-button-prev,
+        .swiper-button-next{
+
+            &:hover{
+
+                .left,
+                .right{
+                    background: rgba(255, 255, 255, 0.05);
+                }
+            }
+        }
+
+        .left,
+        .right{
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 50%;
+            color: #fff;
+        }
+
+        .left{
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.swiper-pagination-bullet{
+    background: rgba(255, 255, 255, 0.5);
+    margin: 0 7px;
+}
+
+.swiper-pagination-bullet-active{
+    background: var(--maincolor);
+}
