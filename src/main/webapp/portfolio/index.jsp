@@ -248,13 +248,13 @@
                                 <div class="box-item md-mb30">
                                     <h4 class="title mb-40">Experience</h4>
                                     <div class="item mb-30">
-                                        <span class="date">2014.09 - 2018.03</span>
+                                        <span class="date">2016.09 - 2018.03</span>
                                         <h5>CloudMansion</h5>
                                         <p>Front-end Developer & Web Design</p>
                                         <span class="fz-15">카페24 스킨 제작 및 유지보수 업무를 수행하였고, 제품 사진 촬영, 모델 및 상품 사진 편집(포토샵), 상품 업로드 등의 업무를 담당했습니다.</span>
                                     </div>
                                     <div class="item">
-                                        <span class="date">2013</span>
+                                        <span class="date">2016</span>
                                         <h5>Freelancer</h5>
                                         <p>Front-end Developer & Web Design</p>
                                         <span class="fz-15">카페24 스킨을 디자인하고 개발하여 판매하였으며, 작업물을 보고 연락을 받은 회사와 협의하여 맞춤 디자인 작업을 진행한 경험이 있습니다.</span>
